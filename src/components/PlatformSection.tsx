@@ -4,7 +4,6 @@ const platforms = [
   { name: "Spotify", logo: "https://cdn.simpleicons.org/spotify/1DB954" },
   { name: "Apple Music", logo: "https://cdn.simpleicons.org/applemusic/FA243C" },
   { name: "YouTube", logo: "https://cdn.simpleicons.org/youtube/FF0000" },
-  { name: "Amazon Music", logo: "https://cdn.simpleicons.org/amazonmusic/00A8E1" },
   { name: "Deezer", logo: "https://cdn.simpleicons.org/deezer/00C7F2" },
   { name: "Tidal", logo: "https://cdn.simpleicons.org/tidal/000000" },
   { name: "SoundCloud", logo: "https://cdn.simpleicons.org/soundcloud/FF3300" },
@@ -13,6 +12,7 @@ const platforms = [
   { name: "Napster", logo: "https://cdn.simpleicons.org/napster/252525" },
   { name: "Shazam", logo: "https://cdn.simpleicons.org/shazam/0088FF" },
   { name: "Beatport", logo: "https://cdn.simpleicons.org/beatport/01FF95" },
+  { name: "Audiomack", logo: "https://cdn.simpleicons.org/audiomack/FFA200" },
 ];
 
 const PlatformSection = () => {
