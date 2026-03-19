@@ -37,9 +37,9 @@ const Navbar = () => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem("theme");
       if (saved === "dark" || saved === "light") return saved;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      return "dark"; // Default to dark mode
     }
-    return "light";
+    return "dark";
   });
   const location = useLocation();
 

@@ -59,19 +59,36 @@ const springTransition = { type: "spring" as const, duration: 0.5, bounce: 0.2 }
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      <div className="container-main grid lg:grid-cols-5 gap-12 items-center">
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-black">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-60"
+          poster="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=1920"
+        >
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-recording-studio-with-a-singer-and-a-microphone-4375-large.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
+      </div>
+
+      <div className="container-main grid lg:grid-cols-5 gap-12 items-center relative z-20">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ ...springTransition, delay: 0.1 }}
           className="lg:col-span-3 space-y-6"
         >
-          <h1 className="heading-display text-foreground">
+          <h1 className="heading-display text-white">
             Start Your Music Journey{" "}
-            <span className="text-accent-highlight">Globally</span> with <span className="text-primary">Pucho</span> Music
+            <span className="text-primary">Globally</span> with <span className="text-primary">Pucho</span> Music
           </h1>
-          <p className="body-text text-muted-foreground max-w-xl">
+          <p className="body-text text-gray-200 max-w-xl">
             Join 50,000+ independent artists distributing to Spotify, Apple Music, and 250+ stores. You keep the rights. We handle the rest.
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
@@ -79,21 +96,21 @@ const HeroSection = () => {
               <Button variant="hero" size="xl">Get Started</Button>
             </Link>
             <Link to="/services">
-              <Button variant="heroOutline" size="xl">Distribute Now</Button>
+              <Button variant="heroOutline" size="xl" className="border-white text-white hover:bg-white hover:text-black">Distribute Now</Button>
             </Link>
           </div>
           <div className="flex items-center gap-6 pt-2">
-            <a href="https://facebook.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://facebook.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
               <Facebook size={20} />
             </a>
-            <a href="https://instagram.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://instagram.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
               <Instagram size={20} />
             </a>
-            <a href="https://youtube.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+            <a href="https://youtube.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
               <Youtube size={20} />
             </a>
           </div>
-          <p className="text-sm text-muted-foreground pt-2">
+          <p className="text-sm text-gray-400 pt-2">
             ✓ No hidden fees · ✓ 24-48hr release · ✓ Keep 100% rights
           </p>
         </motion.div>
