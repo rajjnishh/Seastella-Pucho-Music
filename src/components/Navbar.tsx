@@ -97,9 +97,9 @@ const Navbar = () => {
               key={link.href}
               to={link.href}
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
+                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
                 location.pathname === link.href
-                  ? "bg-card text-foreground shadow-sm"
+                  ? "bg-gradient-to-r from-[#FF2D6F] to-[#FF4D85] text-white shadow-md active"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/30"
               )}
             >
@@ -211,8 +211,10 @@ const Navbar = () => {
                   to={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "px-4 py-3 rounded-lg text-foreground font-medium transition-colors",
-                    location.pathname === link.href ? "bg-secondary" : "hover:bg-secondary/50"
+                    "px-4 py-3 rounded-full text-foreground font-medium transition-all duration-300",
+                    location.pathname === link.href 
+                      ? "bg-gradient-to-r from-[#FF2D6F] to-[#FF4D85] text-white active" 
+                      : "hover:bg-secondary/50"
                   )}
                 >
                   {link.label}
