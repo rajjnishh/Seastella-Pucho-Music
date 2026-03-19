@@ -110,7 +110,17 @@ const Login = () => {
             </>
           ) : (
             <>
-              <h1 className="text-2xl font-bold text-foreground mb-1">Welcome Back</h1>
+              <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-primary/20">
+              <img 
+                src="/logo.png" 
+                alt="Pucho Music Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
+          <h1 className="text-2xl font-bold text-foreground mb-1">Welcome Back</h1>
               <p className="text-sm text-muted-foreground mb-6">Log in to your <span className="text-primary">Pucho</span> Music account</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">

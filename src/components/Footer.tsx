@@ -88,6 +88,16 @@ const Footer = () => {
 
         {/* Social & Copyright */}
         <div className="border-t border-border pt-8 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border border-border/50">
+              <img 
+                src="/logo.png" 
+                alt="Pucho Music Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
           <p className="text-primary text-sm font-medium mb-4">Follow us:</p>
           <div className="flex justify-center gap-4 mb-6">
             {socialLinks.map((social) => (

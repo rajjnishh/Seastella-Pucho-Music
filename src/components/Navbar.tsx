@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon } from "lucide-react";
+import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -76,11 +76,18 @@ const Navbar = () => {
       )}
     >
       <div className="container-main flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">P</span>
+        <Link to="/" className="flex items-center gap-2 group">
+          <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <img 
+              src="/logo.png" 
+              alt="Pucho Music Logo" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
           </div>
-          <span className="font-bold text-xl tracking-tight text-foreground"><span className="text-primary">Pucho</span> Music</span>
+          <span className="font-bold text-xl tracking-tight text-foreground hidden sm:inline-block">
+            <span className="text-primary">Pucho</span> Music
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1 bg-secondary/50 backdrop-blur-sm rounded-full px-2 py-1.5 border border-primary/20 shadow-inner">

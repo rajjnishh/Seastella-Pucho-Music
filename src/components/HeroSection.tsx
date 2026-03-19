@@ -44,10 +44,13 @@ const VinylRecord = () => {
           }}
         >
           {/* Center label */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border border-primary-foreground/30 flex items-center justify-center">
-              <span className="text-primary-foreground font-black text-[10px] sm:text-[12px] tracking-[0.2em] uppercase">PUCHO</span>
-            </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20 overflow-hidden">
+            <img 
+              src="/logo.png" 
+              alt="Pucho Music Logo" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
           </div>
         </div>
       </motion.div>

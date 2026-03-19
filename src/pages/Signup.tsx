@@ -98,6 +98,16 @@ const Signup = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="card-surface p-8 sm:p-10 w-full max-w-md"
         >
+          <div className="flex justify-center mb-6">
+            <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-primary/20">
+              <img 
+                src="/logo.png" 
+                alt="Pucho Music Logo" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
           <h1 className="text-2xl font-bold text-foreground mb-1">Create Account</h1>
           <p className="text-sm text-muted-foreground mb-6">Start your music journey with <span className="text-primary">Pucho</span> Music</p>
 
