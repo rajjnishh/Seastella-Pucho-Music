@@ -6,7 +6,7 @@ const services = [
     title: "Audio",
     highlight: "Distribution",
     description: "<span className=\"text-primary\">Pucho</span> Music offers comprehensive audio distribution, including Content ID protection, fast delivery to major streaming stores, and detailed monthly revenue reports. We ensure your music reaches audiences swiftly while providing insights into your earnings.",
-    image: "https://picsum.photos/seed/music-dist/800/600",
+    image: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=800&h=600",
     reversed: false,
   },
   {
@@ -14,7 +14,7 @@ const services = [
     title: "VEVO Video",
     highlight: "Distribution",
     description: "Our Vevo video distribution service spans over 12 platforms, providing high revenue potential, enhanced visibility, and diverse monetization opportunities. Leverage our expertise to amplify your video content and increase your audience engagement.",
-    image: "https://picsum.photos/seed/video-dist/800/600",
+    image: "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&q=80&w=800&h=600",
     reversed: true,
   },
   {
@@ -22,7 +22,7 @@ const services = [
     title: "MCN & CMS",
     highlight: "Services",
     description: "We provide a full range of MCN/CMS services across various categories, including entertainment, education, and lifestyle. Our solutions include visual Content ID protection, safeguarding your YouTube channel, and optimizing your revenue through premium AdSense strategies.",
-    image: "https://picsum.photos/seed/mcn-cms/800/600",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800&h=600",
     reversed: false,
   },
   {
@@ -30,7 +30,7 @@ const services = [
     title: "Copyright",
     highlight: "Management",
     description: "Protecting your creative work is our priority. <span className=\"text-primary\">Pucho</span> Music ensures comprehensive copyright management, helping you safeguard your intellectual property and providing peace of mind as you share your music with the world.",
-    image: "https://picsum.photos/seed/copyright/800/600",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800&h=600",
     reversed: true,
   },
 ];
