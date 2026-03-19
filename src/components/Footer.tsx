@@ -91,7 +91,7 @@ const Footer = () => {
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border border-border/50">
               <img 
-                src="/logo.png" 
+                src={`${import.meta.env.BASE_URL}logo.png`} 
                 alt="Pucho Music Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
