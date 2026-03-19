@@ -1,8 +1,4 @@
 import { motion } from "framer-motion";
-import audioDistImg from "@/assets/audio-distribution.png";
-import vevoDistImg from "@/assets/vevo-distribution.png";
-import mcnImg from "@/assets/mcn-services.png";
-import copyrightImg from "@/assets/copyright-management.png";
 
 const services = [
   {
@@ -10,7 +6,7 @@ const services = [
     title: "Audio",
     highlight: "Distribution",
     description: "<span className=\"text-primary\">Pucho</span> Music offers comprehensive audio distribution, including Content ID protection, fast delivery to major streaming stores, and detailed monthly revenue reports. We ensure your music reaches audiences swiftly while providing insights into your earnings.",
-    image: audioDistImg,
+    image: "https://picsum.photos/seed/music-dist/800/600",
     reversed: false,
   },
   {
@@ -18,7 +14,7 @@ const services = [
     title: "VEVO Video",
     highlight: "Distribution",
     description: "Our Vevo video distribution service spans over 12 platforms, providing high revenue potential, enhanced visibility, and diverse monetization opportunities. Leverage our expertise to amplify your video content and increase your audience engagement.",
-    image: vevoDistImg,
+    image: "https://picsum.photos/seed/video-dist/800/600",
     reversed: true,
   },
   {
@@ -26,7 +22,7 @@ const services = [
     title: "MCN & CMS",
     highlight: "Services",
     description: "We provide a full range of MCN/CMS services across various categories, including entertainment, education, and lifestyle. Our solutions include visual Content ID protection, safeguarding your YouTube channel, and optimizing your revenue through premium AdSense strategies.",
-    image: mcnImg,
+    image: "https://picsum.photos/seed/mcn-cms/800/600",
     reversed: false,
   },
   {
@@ -34,7 +30,7 @@ const services = [
     title: "Copyright",
     highlight: "Management",
     description: "Protecting your creative work is our priority. <span className=\"text-primary\">Pucho</span> Music ensures comprehensive copyright management, helping you safeguard your intellectual property and providing peace of mind as you share your music with the world.",
-    image: copyrightImg,
+    image: "https://picsum.photos/seed/copyright/800/600",
     reversed: true,
   },
 ];
@@ -67,11 +63,12 @@ const ServicesSection = () => {
             >
               {/* Image Side */}
               <div className="flex-1 w-full">
-                <div className="rounded-3xl overflow-hidden bg-background shadow-lg">
+                <div className="rounded-3xl overflow-hidden bg-background shadow-lg aspect-[4/3]">
                   <img
                     src={service.image}
                     alt={`${service.title} ${service.highlight}`}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               </div>
