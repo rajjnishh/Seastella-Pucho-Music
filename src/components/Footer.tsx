@@ -25,7 +25,7 @@ const Footer = () => {
             <div className="bg-secondary/50 rounded-2xl p-4 flex items-start gap-3 border border-border/50">
               <MapPin className="w-5 h-5 text-primary shrink-0" />
               <div className="text-sm text-muted-foreground space-y-1">
-                <p>India Office: Siliguri, Darjeeling, West Bengal - 734014</p>
+                <p>India Office: Kanti factory road, Mahatma Gandhi Nagar, Patna, Patna, India, Bihar</p>
               </div>
             </div>
           </div>

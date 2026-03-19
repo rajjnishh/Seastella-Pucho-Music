@@ -50,7 +50,7 @@ const Contact = () => {
                 </div>
                 <div className="card-surface p-4 flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-primary shrink-0" />
-                  <span className="text-sm text-muted-foreground">India Office: Siliguri, Darjeeling, West Bengal - 734014</span>
+                  <span className="text-sm text-muted-foreground">India Office: Kanti factory road, Mahatma Gandhi Nagar, Patna, Patna, India, Bihar</span>
                 </div>
               </div>
             </motion.div>

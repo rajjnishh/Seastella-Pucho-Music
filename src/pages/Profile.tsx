@@ -16,6 +16,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { updateProfile as updateAuthProfile } from "firebase/auth";
 import { toast } from "sonner";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -84,11 +86,13 @@ const Profile = () => {
 
   return (
     <ProtectedRoute>
-      <motion.div 
-        className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <motion.div 
+          className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Profile Settings</h1>
           <p className="text-muted-foreground mt-1">
@@ -208,9 +212,11 @@ const Profile = () => {
             </Card>
           </div>
         </div>
+        <Footer />
       </motion.div>
-    </ProtectedRoute>
-  );
+    </div>
+  </ProtectedRoute>
+);
 };
 
 export default Profile;

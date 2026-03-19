@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { addDays, format, differenceInDays } from "date-fns";
 import { motion } from "framer-motion";
 import { 
@@ -28,7 +29,8 @@ import {
   Clock,
   AlertCircle,
   ExternalLink,
-  FileSpreadsheet
+  FileSpreadsheet,
+  ArrowLeft
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/useAuth";
@@ -53,6 +55,8 @@ import { ChannelsTab } from "@/components/dashboard/ChannelsTab";
 import { PromotionTab } from "@/components/dashboard/PromotionTab";
 import { AnalyticsTab } from "@/components/dashboard/AnalyticsTab";
 import { ServicesTab } from "@/components/dashboard/ServicesTab";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 type DateRange = {
   from?: Date;
@@ -63,6 +67,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { profile } = useProfile();
   const { analytics, royalties, loading } = useDashboardData();
+  const navigate = useNavigate();
   const [date, setDate] = useState<DateRange | undefined>({
     from: addDays(new Date(), -7),
     to: new Date(),
@@ -172,13 +177,24 @@ const Dashboard = () => {
   }
 
   return (
-    <motion.div 
-      className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-7xl mx-auto"
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <motion.div 
+        className="min-h-screen pt-24 pb-12 px-4 md:px-8 max-w-7xl mx-auto"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
       {/* Header */}
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="mb-4 -ml-2 text-muted-foreground hover:text-foreground"
+        onClick={() => navigate(-1)}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
@@ -570,8 +586,10 @@ const Dashboard = () => {
       </TabsContent>
 
       </Tabs>
+      <Footer />
     </motion.div>
-  );
+  </div>
+);
 };
 
 export default Dashboard;
