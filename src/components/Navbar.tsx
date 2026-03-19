@@ -33,14 +33,7 @@ const Navbar = () => {
   const { user } = useAuth();
   const { profile } = useProfile();
   const navigate = useNavigate();
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("theme");
-      if (saved === "dark" || saved === "light") return saved;
-      return "dark"; // Default to dark mode
-    }
-    return "dark";
-  });
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const location = useLocation();
 
   useEffect(() => {
@@ -50,7 +43,6 @@ const Navbar = () => {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
   }, [theme]);
 
   useEffect(() => {
