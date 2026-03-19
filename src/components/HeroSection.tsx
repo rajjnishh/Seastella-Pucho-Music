@@ -2,8 +2,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { Facebook, Instagram, Youtube } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Facebook, Instagram, Youtube, Music } from "lucide-react";
 
 const VinylRecord = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,13 +44,8 @@ const VinylRecord = () => {
           }}
         >
           {/* Center label */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20 overflow-hidden">
-            <img 
-              src={logo} 
-              alt="Pucho Music Logo" 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20">
+            <Music className="w-10 h-10 text-white" />
           </div>
         </div>
       </motion.div>

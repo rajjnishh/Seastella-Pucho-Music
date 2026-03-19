@@ -12,8 +12,7 @@ import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, up
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Chrome } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Chrome, Music } from "lucide-react";
 
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -100,13 +99,8 @@ const Signup = () => {
           className="card-surface p-8 sm:p-10 w-full max-w-md"
         >
           <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-primary/20">
-              <img 
-                src={logo} 
-                alt="Pucho Music Logo" 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
+            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center shadow-lg border-2 border-primary/20">
+              <Music className="w-10 h-10 text-primary" />
             </div>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-1">Create Account</h1>
