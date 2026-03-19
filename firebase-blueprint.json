@@ -1,0 +1,66 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User's full name" },
+        "photoURL": { "type": "string", "format": "url", "description": "User's profile picture URL" },
+        "role": { "type": "string", "enum": ["artist", "admin"], "description": "User's role in the system" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Time when the user was created" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Analytics": {
+      "title": "Analytics",
+      "description": "Streaming analytics for an artist",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "User ID of the artist" },
+        "totalStreams": { "type": "number", "description": "Total number of streams" },
+        "monthlyListeners": { "type": "number", "description": "Number of monthly listeners" },
+        "topTracks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Name of the track" },
+              "streams": { "type": "number", "description": "Number of streams for this track" }
+            }
+          }
+        }
+      },
+      "required": ["userId", "totalStreams", "monthlyListeners"]
+    },
+    "Royalties": {
+      "title": "Royalties",
+      "description": "Royalty earnings and history",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "User ID of the artist" },
+        "balance": { "type": "number", "description": "Current balance available for withdrawal" },
+        "pending": { "type": "number", "description": "Pending royalty amount" },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": { "type": "string", "format": "date", "description": "Date of the transaction" },
+              "amount": { "type": "number", "description": "Amount of the transaction" },
+              "status": { "type": "string", "enum": ["paid", "pending", "failed"], "description": "Status of the transaction" }
+            }
+          }
+        }
+      },
+      "required": ["userId", "balance", "pending"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profile document" },
+    "/analytics/{userId}": { "schema": "Analytics", "description": "Artist analytics document" },
+    "/royalties/{userId}": { "schema": "Royalties", "description": "Artist royalty document" }
+  }
+}
