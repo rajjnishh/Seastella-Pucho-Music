@@ -12,6 +12,7 @@ import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPa
 import { toast } from "sonner";
 import React, { useState } from "react";
 import { Chrome } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const schema = z.object({
   email: z.string().email("Enter a valid email"),
@@ -113,7 +114,7 @@ const Login = () => {
               <div className="flex justify-center mb-6">
             <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-primary/20">
               <img 
-                src={`${import.meta.env.BASE_URL}logo.png`} 
+                src={logo} 
                 alt="Pucho Music Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

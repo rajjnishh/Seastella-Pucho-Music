@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const socialLinks = [
@@ -91,7 +92,7 @@ const Footer = () => {
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-full overflow-hidden shadow-md border border-border/50">
               <img 
-                src={`${import.meta.env.BASE_URL}logo.png`} 
+                src={logo} 
                 alt="Pucho Music Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"

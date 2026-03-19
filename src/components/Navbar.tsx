@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/useAuth";
 import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
+import logo from "@/assets/logo.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -79,7 +80,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-12 h-12 rounded-full overflow-hidden shadow-lg group-hover:scale-110 transition-transform duration-300">
             <img 
-              src={`${import.meta.env.BASE_URL}logo.png`} 
+              src={logo} 
               alt="Pucho Music Logo" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"

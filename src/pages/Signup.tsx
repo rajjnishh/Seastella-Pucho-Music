@@ -13,6 +13,7 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Chrome } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const schema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters"),
@@ -101,7 +102,7 @@ const Signup = () => {
           <div className="flex justify-center mb-6">
             <div className="w-20 h-20 rounded-full overflow-hidden shadow-lg border-2 border-primary/20">
               <img 
-                src={`${import.meta.env.BASE_URL}logo.png`} 
+                src={logo} 
                 alt="Pucho Music Logo" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
