@@ -14,7 +14,7 @@ const services = [
     title: "VEVO Video",
     highlight: "Distribution",
     description: "Our Vevo video distribution service spans over 12 platforms, providing high revenue potential, enhanced visibility, and diverse monetization opportunities. Leverage our expertise to amplify your video content and increase your audience engagement.",
-    image: "/vevo-image.png",
+    image: "/hands-working-on-music-device-small.jpg",
     reversed: true,
   },
   {
