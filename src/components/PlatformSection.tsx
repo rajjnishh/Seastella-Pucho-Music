@@ -43,7 +43,7 @@ const PlatformSection = () => {
               className="w-full aspect-square flex items-center justify-center p-2 cursor-pointer relative group"
               title={p.name}
             >
-              <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300">
+              <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 bg-white rounded-full p-3 shadow-sm border border-border/50">
                 <img
                   src={p.logo}
                   alt={p.name}

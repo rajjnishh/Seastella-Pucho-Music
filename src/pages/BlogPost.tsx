@@ -15,12 +15,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const posts = [
-  { id: "1", title: "How to Get Your Music on Spotify in 2025", category: "Distribution", excerpt: "A step-by-step guide to distributing your music to Spotify and getting verified as an artist.", content: "This is the full content for the Spotify distribution guide. In 2025, getting your music on Spotify is easier than ever with Pucho Music. First, ensure your audio files are high quality. Next, prepare your artwork according to Spotify's guidelines. Finally, use the Pucho Music dashboard to submit your release. We handle the rest, ensuring your music is live within 24-48 hours." },
-  { id: "2", title: "Understanding Music Royalties", category: "Monetization", excerpt: "Everything you need to know about how royalties work and how to maximize your earnings.", content: "Music royalties can be complex, but they are essential for every artist to understand. There are mechanical royalties, performance royalties, and synchronization royalties. Pucho Music helps you collect these by distributing to all major platforms and providing detailed monthly reports. Maximize your earnings by ensuring all your metadata is correct and your music is registered properly." },
-  { id: "3", title: "VEVO Channel: Why Every Artist Needs One", category: "Video", excerpt: "Learn how a VEVO channel can boost your credibility and revenue as an independent artist.", content: "A VEVO channel is a mark of professional quality for any music artist. It provides higher ad rates and better visibility on YouTube. Pucho Music can help you set up your VEVO channel and distribute your music videos to over 12 platforms. This not only boosts your credibility but also opens up new monetization opportunities." },
-  { id: "4", title: "Content ID Protection Explained", category: "Copyright", excerpt: "How Content ID works across YouTube, Meta, and TikTok to protect your creative work.", content: "Content ID is a powerful tool that helps you protect your music from unauthorized use. When someone uses your music in their video, Content ID identifies it and allows you to either block the video or monetize it. Pucho Music provides comprehensive Content ID protection across YouTube, Meta, and TikTok, ensuring you get paid for every use of your sound." },
-  { id: "5", title: "Building Your Brand as an Independent Artist", category: "Growth", excerpt: "Proven strategies to build a loyal fanbase and grow your music career independently.", content: "Building a brand is about more than just the music; it's about your story and how you connect with your audience. Use social media to engage with fans, create consistent visual content, and be authentic. Pucho Music supports your growth by providing the tools you need to distribute your music globally while you focus on building your community." },
-  { id: "6", title: "MCN Services: Maximizing YouTube Revenue", category: "MCN", excerpt: "How Multi-Channel Network services can help optimize your YouTube channel and earnings.", content: "Multi-Channel Networks (MCNs) offer specialized services to help YouTube creators grow and monetize their channels. Pucho Music's MCN services include visual Content ID protection, channel optimization, and access to premium AdSense strategies. This helps you safeguard your channel and maximize your revenue potential." },
+  { id: "1", title: "How to Get Your Music on Spotify in 2025", category: "Distribution", excerpt: "A step-by-step guide to distributing your music to Spotify and getting verified as an artist.", content: "This is the full content for the Spotify distribution guide. In 2025, getting your music on Spotify is easier than ever with PUCHO Music. First, ensure your audio files are high quality. Next, prepare your artwork according to Spotify's guidelines. Finally, use the PUCHO Music dashboard to submit your release. We handle the rest, ensuring your music is live within 24-48 hours." },
+  { id: "2", title: "Understanding Music Royalties", category: "Monetization", excerpt: "Everything you need to know about how royalties work and how to maximize your earnings.", content: "Music royalties can be complex, but they are essential for every artist to understand. There are mechanical royalties, performance royalties, and synchronization royalties. PUCHO Music helps you collect these by distributing to all major platforms and providing detailed monthly reports. Maximize your earnings by ensuring all your metadata is correct and your music is registered properly." },
+  { id: "3", title: "VEVO Channel: Why Every Artist Needs One", category: "Video", excerpt: "Learn how a VEVO channel can boost your credibility and revenue as an independent artist.", content: "A VEVO channel is a mark of professional quality for any music artist. It provides higher ad rates and better visibility on YouTube. PUCHO Music can help you set up your VEVO channel and distribute your music videos to over 12 platforms. This not only boosts your credibility but also opens up new monetization opportunities." },
+  { id: "4", title: "Content ID Protection Explained", category: "Copyright", excerpt: "How Content ID works across YouTube, Meta, and TikTok to protect your creative work.", content: "Content ID is a powerful tool that helps you protect your music from unauthorized use. When someone uses your music in their video, Content ID identifies it and allows you to either block the video or monetize it. PUCHO Music provides comprehensive Content ID protection across YouTube, Meta, and TikTok, ensuring you get paid for every use of your sound." },
+  { id: "5", title: "Building Your Brand as an Independent Artist", category: "Growth", excerpt: "Proven strategies to build a loyal fanbase and grow your music career independently.", content: "Building a brand is about more than just the music; it's about your story and how you connect with your audience. Use social media to engage with fans, create consistent visual content, and be authentic. PUCHO Music supports your growth by providing the tools you need to distribute your music globally while you focus on building your community." },
+  { id: "6", title: "MCN Services: Maximizing YouTube Revenue", category: "MCN", excerpt: "How Multi-Channel Network services can help optimize your YouTube channel and earnings.", content: "Multi-Channel Networks (MCNs) offer specialized services to help YouTube creators grow and monetize their channels. PUCHO Music's MCN services include visual Content ID protection, channel optimization, and access to premium AdSense strategies. This helps you safeguard your channel and maximize your revenue potential." },
 ];
 
 const BlogPost = () => {
@@ -34,7 +34,7 @@ const BlogPost = () => {
   });
 
   const shareUrl = window.location.href;
-  const shareTitle = post?.title || "Check out this post from Pucho Music";
+  const shareTitle = post?.title || "Check out this post from PUCHO Music";
 
   const handleShare = (platform: 'twitter' | 'linkedin' | 'generic') => {
     if (platform === 'twitter') {
@@ -120,7 +120,7 @@ const BlogPost = () => {
                 </Avatar>
                 <div>
                   <p className="text-base font-bold text-foreground">Rajnish</p>
-                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Music Industry Expert • Pucho Music</p>
+                  <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Music Industry Expert • PUCHO Music</p>
                 </div>
               </div>
 
@@ -174,7 +174,7 @@ const BlogPost = () => {
                   Key Takeaway
                 </h3>
                 <p className="text-muted-foreground italic">
-                  Success in the music industry today requires a combination of great art and smart distribution. Pucho Music bridges that gap for independent creators.
+                  Success in the music industry today requires a combination of great art and smart distribution. PUCHO Music bridges that gap for independent creators.
                 </p>
               </motion.div>
 
@@ -224,7 +224,7 @@ const BlogPost = () => {
               
               <h2 className="text-3xl md:text-4xl font-bold mb-6 relative z-10">Ready to take your music global?</h2>
               <p className="text-background/70 mb-10 max-w-lg mx-auto relative z-10">
-                Join 50,000+ artists who trust Pucho Music for their distribution and growth.
+                Join 50,000+ artists who trust PUCHO Music for their distribution and growth.
               </p>
               <div className="flex flex-wrap justify-center gap-4 relative z-10">
                 <Link to="/signup">

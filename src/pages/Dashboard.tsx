@@ -209,17 +209,17 @@ const Dashboard = () => {
             <Calendar size={16} className="text-muted-foreground" />
             <input
               type="date"
-              className="bg-transparent border-none outline-none text-sm w-[115px] text-foreground"
+              className="bg-transparent border-none outline-none text-sm w-[115px] text-pink-500 font-medium"
               value={date?.from ? format(date.from, "yyyy-MM-dd") : ""}
               onChange={(e) => {
                 const newDate = e.target.value ? new Date(e.target.value) : undefined;
                 setDate({ ...date, from: newDate });
               }}
             />
-            <span className="text-muted-foreground text-sm">-</span>
+            <span className="text-pink-500/70 text-sm">-</span>
             <input
               type="date"
-              className="bg-transparent border-none outline-none text-sm w-[115px] text-foreground"
+              className="bg-transparent border-none outline-none text-sm w-[115px] text-pink-500 font-medium"
               value={date?.to ? format(date.to, "yyyy-MM-dd") : ""}
               onChange={(e) => {
                 const newDate = e.target.value ? new Date(e.target.value) : undefined;

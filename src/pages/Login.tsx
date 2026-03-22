@@ -116,7 +116,7 @@ const Login = () => {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-1">Welcome Back</h1>
-              <p className="text-sm text-muted-foreground mb-6">Log in to your <span className="text-primary">Pucho</span> Music account</p>
+              <p className="text-sm text-muted-foreground mb-6">Log in to your <span className="text-primary">PUCHO</span> Music account</p>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>

@@ -43,7 +43,7 @@ const Blog = () => {
             className="max-w-4xl"
           >
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold text-foreground leading-[1.1] tracking-tight">
-              <span className="text-primary">Pucho</span> Music <br />
+              <span className="text-primary">PUCHO</span> Music <br />
               <span className="text-accent-highlight">Insights</span> & Blog
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mt-8 max-w-2xl leading-relaxed">

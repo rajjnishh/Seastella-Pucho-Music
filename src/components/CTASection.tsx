@@ -18,7 +18,7 @@ const CTASection = () => {
               Ready to Go <span className="text-accent-highlight">Global?</span>
             </h2>
             <p className="body-text text-muted-foreground mt-4 max-w-lg mx-auto">
-              Join thousands of independent artists who trust <span className="text-primary">Pucho</span> Music to distribute their sound worldwide.
+              Join thousands of independent artists who trust <span className="text-primary">PUCHO</span> Music to distribute their sound worldwide.
             </p>
             <div className="flex flex-wrap justify-center gap-4 mt-8">
               <Link to="/signup">

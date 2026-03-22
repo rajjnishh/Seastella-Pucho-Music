@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon, Music } from "lucide-react";
+import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -22,7 +22,7 @@ import { NotificationsPopover } from "@/components/NotificationsPopover";
 const navLinks = [
   { label: "Services", href: "/services" },
   { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "/about" },
+  { label: "About Us", href: "/about" },
   { label: "Blog", href: "/blog" },
   { label: "Contact Us", href: "/contact" },
 ];
@@ -77,11 +77,11 @@ const Navbar = () => {
     >
       <div className="container-main flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <Music className="w-7 h-7 text-primary" />
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+            <img src="/logo.jpeg" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           </div>
           <span className="font-bold text-xl tracking-tight text-foreground hidden sm:inline-block">
-            <span className="text-primary">Pucho</span> Music
+            <span className="text-primary">PUCHO</span> Music
           </span>
         </Link>
 

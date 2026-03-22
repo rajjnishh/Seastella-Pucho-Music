@@ -1,31 +1,27 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Instagram, Youtube, Music } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Facebook, href: "https://www.facebook.com/PuchoMusicBhojpuri", label: "Facebook" },
-    { icon: Instagram, href: "https://www.instagram.com/pucho_music_bhojpuri/", label: "Instagram" },
-    { icon: Youtube, href: "https://www.youtube.com/@puchomusicbhojpuri", label: "YouTube" },
+    { icon: Facebook, href: "https://www.facebook.com/PUCHOMusicBhojpuri", label: "Facebook" },
+    { icon: Instagram, href: "https://www.instagram.com/PUCHO_music_bhojpuri/", label: "Instagram" },
+    { icon: Youtube, href: "https://www.youtube.com/@PUCHOmusicbhojpuri", label: "YouTube" },
   ];
 
   return (
-    <footer className="bg-card text-foreground border-t border-border section-padding">
+    <footer className="bg-card text-foreground border-t border-border py-12 md:py-16">
       <div className="container-main">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-8">
           {/* Contact Info */}
           <div className="space-y-4">
             <div className="bg-secondary/50 rounded-2xl p-4 flex items-center gap-3 border border-border/50">
               <Mail className="w-5 h-5 text-primary" />
-              <span className="text-sm text-muted-foreground">contact@puchomusic.com</span>
-            </div>
-            <div className="bg-secondary/50 rounded-2xl p-4 flex items-center gap-3 border border-border/50">
-              <Phone className="w-5 h-5 text-primary" />
-              <span className="text-sm text-muted-foreground">+91 9128830590</span>
+              <span className="text-sm text-muted-foreground">puchomusic44@gmail.com</span>
             </div>
             <div className="bg-secondary/50 rounded-2xl p-4 flex items-start gap-3 border border-border/50">
               <MapPin className="w-5 h-5 text-primary shrink-0" />
               <div className="text-sm text-muted-foreground space-y-1">
-                <p>India Office: Kanti factory road, Mahatma Gandhi Nagar, Patna, Patna, India, Bihar</p>
+                <p>Address - 1903, Hanuman Mandir road, Kokan Nagar, Bhandup, west, Mumbai, India</p>
               </div>
             </div>
           </div>
@@ -87,14 +83,14 @@ const Footer = () => {
         </div>
 
         {/* Social & Copyright */}
-        <div className="border-t border-border pt-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shadow-md border border-border/50">
-              <Music className="w-8 h-8 text-primary" />
+        <div className="border-t border-border pt-4 text-center">
+          <div className="flex justify-center mb-3">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center shadow-md border border-border/50">
+              <img src="/logo.jpeg" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
           </div>
-          <p className="text-primary text-sm font-medium mb-4">Follow us:</p>
-          <div className="flex justify-center gap-4 mb-6">
+          <p className="text-primary text-sm font-medium mb-2">Follow us:</p>
+          <div className="flex justify-center gap-4 mb-3">
             {socialLinks.map((social) => (
               <a
                 key={social.label}
@@ -108,7 +104,7 @@ const Footer = () => {
               </a>
             ))}
           </div>
-          <p className="text-muted-foreground text-sm">© 2025 <span className="text-primary">Pucho</span> Music. All rights reserved.</p>
+          <p className="text-muted-foreground text-sm">© 2025 <span className="text-primary">PUCHO</span> Music. All rights reserved.</p>
         </div>
       </div>
     </footer>

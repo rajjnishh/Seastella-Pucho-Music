@@ -42,15 +42,11 @@ const Contact = () => {
               <div className="mt-10 space-y-4">
                 <div className="card-surface p-4 flex items-center gap-3">
                   <Mail className="w-5 h-5 text-primary" />
-                  <span className="text-sm text-muted-foreground">contact@puchomusic.com</span>
-                </div>
-                <div className="card-surface p-4 flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <span className="text-sm text-muted-foreground">+91 9128830590</span>
+                  <span className="text-sm text-muted-foreground">puchomusic44@gmail.com</span>
                 </div>
                 <div className="card-surface p-4 flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-primary shrink-0" />
-                  <span className="text-sm text-muted-foreground">India Office: Kanti factory road, Mahatma Gandhi Nagar, Patna, Patna, India, Bihar</span>
+                  <span className="text-sm text-muted-foreground">Address - 1903, Hanuman Mandir road, Kokan Nagar, Bhandup, west, Mumbai, India</span>
                 </div>
               </div>
             </motion.div>

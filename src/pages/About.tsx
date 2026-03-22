@@ -11,10 +11,10 @@ const About = () => {
         <div className="container-main">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
             <h1 className="heading-display text-foreground">
-              Why <span className="text-accent-highlight"><span className="text-primary">Pucho</span> Music?</span>
+              Why <span className="text-accent-highlight"><span className="text-primary">PUCHO</span> Music?</span>
             </h1>
             <p className="body-text text-muted-foreground mt-6">
-              <span className="text-primary">Pucho</span> Music stands out as a premier choice for artists and labels seeking robust music distribution services. Our commitment to empowering creators and maximizing their reach in the global market makes us an ideal partner for your musical journey.
+              <span className="text-primary">PUCHO</span> Music stands out as a premier choice for artists and labels seeking robust music distribution services. Our commitment to empowering creators and maximizing their reach in the global market makes us an ideal partner for your musical journey.
             </p>
             <p className="body-text text-muted-foreground mt-4">
               We believe every artist deserves access to the global stage. With distribution to 250+ platforms across 200+ countries, we handle the technical complexity so you can focus on creating. You keep 100% of your rights — always.

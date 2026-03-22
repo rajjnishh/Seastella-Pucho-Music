@@ -14,7 +14,7 @@ export const PromotionTab = () => {
   const [copied, setCopied] = useState(false);
 
   const handleGenerateSmartlink = () => {
-    setSmartlink("https://pucho.link/midnight-echoes");
+    setSmartlink("https://PUCHO.link/midnight-echoes");
     toast.success("Smartlink generated successfully!");
   };
 

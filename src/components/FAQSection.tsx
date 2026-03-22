@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     question: "Do I keep 100% of my rights?",
-    answer: "Yes, absolutely. You retain 100% ownership of your music and copyrights. <span className=\"text-primary\">Pucho</span> Music is strictly a distribution partner helping you reach global audiences.",
+    answer: "Yes, absolutely. You retain 100% ownership of your music and copyrights. <span className=\"text-primary\">PUCHO</span> Music is strictly a distribution partner helping you reach global audiences.",
   },
   {
     question: "Which platforms do you distribute to?",
@@ -47,7 +47,7 @@ const FAQSection = () => {
             Frequently Asked <span className="text-accent-highlight">Questions</span>
           </h2>
           <p className="body-text text-muted-foreground">
-            Everything you need to know about distributing your music with <span className="text-primary">Pucho</span> Music.
+            Everything you need to know about distributing your music with <span className="text-primary">PUCHO</span> Music.
           </p>
         </motion.div>
 

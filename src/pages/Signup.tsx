@@ -82,7 +82,7 @@ const Signup = () => {
         updatedAt: serverTimestamp(),
       }, { merge: true });
 
-      toast.success("Welcome to Pucho Music!");
+      toast.success("Welcome to PUCHO Music!");
       navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message || "Failed to sign up with Google");
@@ -104,7 +104,7 @@ const Signup = () => {
             </div>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-1">Create Account</h1>
-          <p className="text-sm text-muted-foreground mb-6">Start your music journey with <span className="text-primary">Pucho</span> Music</p>
+          <p className="text-sm text-muted-foreground mb-6">Start your music journey with <span className="text-primary">PUCHO</span> Music</p>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>

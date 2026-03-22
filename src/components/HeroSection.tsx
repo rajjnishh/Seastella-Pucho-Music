@@ -2,7 +2,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import { Facebook, Instagram, Youtube, Music } from "lucide-react";
+import { Facebook, Instagram, Youtube } from "lucide-react";
 
 const VinylRecord = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -44,8 +44,8 @@ const VinylRecord = () => {
           }}
         >
           {/* Center label */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20">
-            <Music className="w-10 h-10 text-white" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20">
+            <img src="/logo.jpeg" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           </div>
         </div>
       </motion.div>
@@ -84,7 +84,7 @@ const HeroSection = () => {
         >
           <h1 className="heading-display text-white">
             Start Your Music Journey{" "}
-            <span className="text-primary">Globally</span> with <span className="text-primary">Pucho</span> Music
+            <span className="text-primary">Globally</span> with <span className="text-primary">PUCHO</span> Music
           </h1>
           <p className="body-text text-gray-200 max-w-xl">
             Join 50,000+ independent artists distributing to Spotify, Apple Music, and 250+ stores. You keep the rights. We handle the rest.
@@ -97,27 +97,30 @@ const HeroSection = () => {
               <Button variant="heroOutline" size="xl" className="border-white text-white hover:bg-white hover:text-black">Distribute Now</Button>
             </Link>
           </div>
-          <div className="flex items-center gap-6 pt-2">
-            <a href="https://facebook.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
-              <Facebook size={20} />
-            </a>
-            <a href="https://instagram.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
-              <Instagram size={20} />
-            </a>
-            <a href="https://youtube.com/puchomusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
-              <Youtube size={20} />
-            </a>
+
+          <div className="flex flex-col items-start w-full space-y-4 pt-4">
+            <div className="flex items-center gap-6">
+              <a href="https://facebook.com/PUCHOMusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
+                <Facebook size={20} />
+              </a>
+              <a href="https://instagram.com/PUCHOMusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
+                <Instagram size={20} />
+              </a>
+              <a href="https://youtube.com/PUCHOMusic" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-primary transition-colors">
+                <Youtube size={20} />
+              </a>
+            </div>
+            <p className="text-sm text-gray-400 text-left">
+              ✓ No hidden fees · ✓ 24-48hr release · ✓ Keep 100% rights
+            </p>
           </div>
-          <p className="text-sm text-gray-400 pt-2">
-            ✓ No hidden fees · ✓ 24-48hr release · ✓ Keep 100% rights
-          </p>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ ...springTransition, delay: 0.3 }}
-          className="lg:col-span-2 flex items-center justify-center"
+          className="lg:col-span-2 flex flex-col items-center justify-center gap-8"
         >
           <VinylRecord />
         </motion.div>
