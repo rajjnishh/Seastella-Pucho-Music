@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
-import puchoLogo from "@/assets/pucho-brand-logo.png";
+import puchoLogo from "@/assets/pucho-logo-new.png";
 
 const Footer = () => {
   const socialLinks = [

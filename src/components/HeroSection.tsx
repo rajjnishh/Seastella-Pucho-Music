@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
-import puchoLogo from "@/assets/pucho-brand-logo.png";
+import puchoLogo from "@/assets/pucho-logo-new.png";
 
 const VinylRecord = () => {
   const containerRef = useRef<HTMLDivElement>(null);

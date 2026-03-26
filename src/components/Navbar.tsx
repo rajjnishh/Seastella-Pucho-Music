@@ -18,7 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/lib/useProfile";
 import { NotificationsPopover } from "@/components/NotificationsPopover";
-import puchoLogo from "@/assets/pucho-brand-logo.png"; // Main brand logo
+import puchoLogo from "@/assets/pucho-logo-new.png"; // Main brand logo
 
 const navLinks = [
   { label: "Services", href: "/services" },
