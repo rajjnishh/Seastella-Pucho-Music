@@ -40,7 +40,7 @@ const PlatformSection = () => {
                 filter: "drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2))",
                 transition: { type: "spring", stiffness: 400, damping: 10 }
               }}
-              className="w-full aspect-square flex items-center justify-center p-2 cursor-pointer relative group"
+              className="w-full flex flex-col items-center justify-center p-2 cursor-pointer relative group gap-3"
               title={p.name}
             >
               <div className="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-transform duration-300 bg-white rounded-full p-3 shadow-sm border border-border/50">
@@ -51,6 +51,9 @@ const PlatformSection = () => {
                   referrerPolicy="no-referrer"
                 />
               </div>
+              <span className="text-xs md:text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors text-center">
+                {p.name}
+              </span>
             </motion.div>
           ))}
         </div>

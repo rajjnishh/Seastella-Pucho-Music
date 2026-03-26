@@ -110,9 +110,11 @@ const HeroSection = () => {
                 <Youtube size={20} />
               </a>
             </div>
-            <p className="text-sm text-gray-400 text-left">
-              ✓ No hidden fees · ✓ 24-48hr release · ✓ Keep 100% rights
-            </p>
+            <div className="text-sm text-gray-400 text-left flex flex-wrap gap-4">
+              <span><span className="text-primary">✓</span> No hidden fees</span>
+              <span><span className="text-primary">✓</span> 24 - 48 hr release</span>
+              <span><span className="text-primary">✓</span> Keep 100% rights</span>
+            </div>
           </div>
         </motion.div>
 

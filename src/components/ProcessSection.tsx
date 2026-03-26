@@ -6,7 +6,7 @@ const steps = [
   { icon: CheckCircle, title: "Verification", description: "We review and prepare your content to ensure it meets platform standards." },
   { icon: Globe, title: "Distribution", description: "Distribute your music to 250+ platforms across 200+ countries." },
   { icon: Megaphone, title: "Promotion", description: "Boost visibility through marketing tools and audience engagement." },
-  { icon: DollarSign, title: "Monetization", description: "Earn royalties, track revenue, and grow your audience." },
+  { icon: DollarSign, title: "Monetization", description: <>Earn royalties, track revenue,<br />and grow your audience with<br />complete transparency.</> },
 ];
 
 const ProcessSection = () => {

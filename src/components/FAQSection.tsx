@@ -9,27 +9,27 @@ import {
 const faqs = [
   {
     question: "How long does it take to release my music?",
-    answer: "Typically, your music will be live on major platforms like Spotify and Apple Music within 24 to 48 hours after submission, provided there are no issues with your metadata or artwork.",
+    answer: <>Typically, your music will be live on major platforms like Spotify and Apple Music within 24 to 48 hours after submission, provided there are no issues with your metadata or artwork.</>,
   },
   {
     question: "Do I keep 100% of my rights?",
-    answer: "Yes, absolutely. You retain 100% ownership of your music and copyrights. <span className=\"text-primary\">PUCHO</span> Music is strictly a distribution partner helping you reach global audiences.",
+    answer: <>Yes, absolutely. You retain 100% ownership of your music and copyrights. <span className="text-primary">PUCHO</span> Music is strictly a distribution partner helping you reach global audiences.</>,
   },
   {
     question: "Which platforms do you distribute to?",
-    answer: "We distribute to over 250+ digital stores and streaming platforms worldwide, including Spotify, Apple Music, YouTube Music, Amazon Music, JioSaavn, Gaana, and many more.",
+    answer: <>We distribute to over 250+ digital stores and streaming platforms worldwide, including Spotify, Apple Music, YouTube Music, Amazon Music, JioSaavn, Gaana, and many more.</>,
   },
   {
     question: "How and when do I get paid?",
-    answer: "Earnings are updated monthly in your dashboard. You can withdraw your royalties once you reach the minimum threshold through various payment methods including Bank Transfer and UPI.",
+    answer: <>Earnings are updated monthly in your dashboard. You can withdraw your royalties once you reach the minimum threshold through various payment methods including Bank Transfer and UPI.</>,
   },
   {
     question: "Are there any hidden fees?",
-    answer: "No. We believe in transparency. There are no hidden setup fees or recurring annual charges for your releases. You keep the majority of your royalties as per your chosen plan.",
+    answer: <>No. We believe in transparency. There are no hidden setup fees or recurring annual charges for your releases. You keep the majority of your royalties as per your chosen plan.</>,
   },
   {
     question: "What kind of support do you provide?",
-    answer: "We offer dedicated 'Super Support' via email and WhatsApp to help you with any distribution, copyright, or technical issues you might encounter.",
+    answer: <>We offer dedicated 'Super Support' via email and WhatsApp to help you with any distribution, copyright, or technical issues you might encounter.</>,
   },
 ];
 
