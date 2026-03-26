@@ -18,6 +18,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/lib/useProfile";
 import { NotificationsPopover } from "@/components/NotificationsPopover";
+import puchoLogo from "@/assets/pucho-logo.png";
 
 const navLinks = [
   { label: "Services", href: "/services" },
@@ -78,7 +79,7 @@ const Navbar = () => {
       <div className="container-main flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2 group">
           <div className="w-12 h-12 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <img src="/pucho-logo.png" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            <img src={puchoLogo} alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           </div>
           <span className="font-bold text-xl tracking-tight text-foreground hidden sm:inline-block">
             <span className="text-primary">PUCHO</span> Music
