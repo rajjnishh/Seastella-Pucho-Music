@@ -45,7 +45,7 @@ const VinylRecord = () => {
         >
           {/* Center label */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-primary flex items-center justify-center shadow-[0_0_30px_rgba(231,28,104,0.5)] border-4 border-foreground/20">
-            <img src="/logo.jpeg" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+            <img src="/pucho-logo.png" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           </div>
         </div>
       </motion.div>
@@ -84,7 +84,7 @@ const HeroSection = () => {
         >
           <h1 className="heading-display text-white">
             Start Your Music Journey{" "}
-            <span className="text-primary">Globally</span> with <span className="text-primary">PUCHO</span> Music
+            <span className="text-white">Globally</span> with <span className="whitespace-nowrap"><span className="text-primary">PUCHO</span> Music</span>
           </h1>
           <p className="body-text text-gray-200 max-w-xl">
             Join 50,000+ independent artists distributing to Spotify, Apple Music, and 250+ stores. You keep the rights. We handle the rest.

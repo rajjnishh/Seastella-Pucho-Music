@@ -86,7 +86,7 @@ const Footer = () => {
         <div className="border-t border-border pt-4 text-center">
           <div className="flex justify-center mb-3">
             <div className="w-16 h-16 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center shadow-md border border-border/50">
-              <img src="/logo.jpeg" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src="/pucho-logo.png" alt="PUCHO Music Logo" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
             </div>
           </div>
           <p className="text-primary text-sm font-medium mb-2">Follow us:</p>

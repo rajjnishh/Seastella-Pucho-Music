@@ -46,7 +46,7 @@ const ServicesSection = () => {
           className="mb-16"
         >
           <h2 className="heading-section text-foreground">
-            <span className="text-primary">PUCHO</span> Music <span className="text-accent-highlight">Services</span>
+            <span className="whitespace-nowrap"><span className="text-primary">PUCHO</span> Music</span> <span className="text-accent-highlight">Services</span>
           </h2>
           <p className="body-text text-muted-foreground mt-3">Reliable process for achieving distinctiveness.</p>
         </motion.div>
