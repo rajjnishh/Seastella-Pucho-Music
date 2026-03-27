@@ -1,0 +1,21 @@
+const sharp = require('sharp');
+const fs = require('fs');
+
+async function processImage() {
+  try {
+    const buffer = await sharp('/app/applet/src/assets/pucho-logo-new.png')
+      .resize(200, 200, { fit: 'inside' })
+      .webp({ quality: 80 })
+      .toBuffer();
+    
+    const base64 = buffer.toString('base64');
+    const tsContent = `export const puchoLogoBase64 = "data:image/webp;base64,${base64}";\n`;
+    
+    fs.writeFileSync('/app/applet/src/assets/logo-base64.ts', tsContent);
+    console.log('Successfully created base64 logo');
+  } catch (error) {
+    console.error('Error processing image:', error);
+  }
+}
+
+processImage();
