@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const plans = [
   {
     name: "Free",
-    price: "0₹",
+    price: "₹0",
     period: "one-time",
     popular: false,
     features: [
@@ -21,7 +21,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "2,999₹",
+    price: "₹2,999",
     period: "one-time",
     popular: true,
     features: [
@@ -42,7 +42,7 @@ const plans = [
   },
   {
     name: "Enterprise",
-    price: "9,999₹",
+    price: "₹9,999",
     period: "one-time",
     popular: false,
     features: [

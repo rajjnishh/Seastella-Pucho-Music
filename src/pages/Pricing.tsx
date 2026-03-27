@@ -9,7 +9,7 @@ import { Check } from "lucide-react";
 const plans = [
   {
     name: "Free",
-    price: "0₹",
+    price: "₹0",
     period: "one-time",
     description: "Perfect for new artists starting their journey.",
     features: [
@@ -26,7 +26,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "2,999₹",
+    price: "₹2,999",
     period: "one-time",
     description: "The complete toolkit for growing artists.",
     features: [
@@ -49,7 +49,7 @@ const plans = [
   },
   {
     name: "Enterprise",
-    price: "9,999₹",
+    price: "₹9,999",
     period: "one-time",
     description: "For labels and high-volume creators.",
     features: [
