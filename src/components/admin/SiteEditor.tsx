@@ -17,7 +17,9 @@ import {
   Globe,
   Zap,
   Pencil,
-  MessageSquare
+  MessageSquare,
+  Link as LinkIcon,
+  Navigation
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -103,6 +105,9 @@ export const SiteEditor = ({
           <TabsTrigger value="blog" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm flex items-center gap-2">
             <FileText size={16} /> Blog Posts
           </TabsTrigger>
+          <TabsTrigger value="navigation" className="rounded-lg data-[state=active]:bg-background data-[state=active]:shadow-sm flex items-center gap-2">
+            <Navigation size={16} /> Navigation
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="services" className="space-y-4">
@@ -157,7 +162,17 @@ export const SiteEditor = ({
               variant="outline" 
               size="sm" 
               onClick={() => {
-                setEditingPlan({ name: "", price: "", description: "", features: [], isPopular: false, buttonText: "Get Started" });
+                setEditingPlan({ 
+                  name: "", 
+                  price: 0, 
+                  description: "", 
+                  features: [], 
+                  isPopular: false, 
+                  buttonText: "Get Started",
+                  currency: "₹",
+                  hasFreeTrial: false,
+                  trialDays: 0
+                });
                 setIsPlanDialogOpen(true);
               }}
               className="rounded-xl flex items-center gap-2"
@@ -175,7 +190,14 @@ export const SiteEditor = ({
                 )}
                 <CardHeader>
                   <CardTitle>{plan.name}</CardTitle>
-                  <CardDescription className="text-2xl font-bold text-foreground">{plan.price}</CardDescription>
+                  <CardDescription className="text-2xl font-bold text-foreground">
+                    {plan.currency} {plan.price}
+                  </CardDescription>
+                  {plan.hasFreeTrial && (
+                    <Badge variant="outline" className="w-fit mt-1 text-[10px]">
+                      {plan.trialDays} Days Free Trial
+                    </Badge>
+                  )}
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <ul className="space-y-2">
@@ -293,6 +315,95 @@ export const SiteEditor = ({
                 </div>
               </Card>
             ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="navigation" className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="rounded-2xl border-muted/50">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <div>
+                  <CardTitle>Navbar Links</CardTitle>
+                  <CardDescription>Links shown in the top navigation bar.</CardDescription>
+                </div>
+                <Button variant="outline" size="sm" className="rounded-xl" onClick={() => {
+                  if (siteSettings) {
+                    const newLinks = [...(siteSettings.navbarLinks || []), { label: "New Link", href: "#" }];
+                    setEditingSettings({ ...siteSettings, navbarLinks: newLinks });
+                    setIsSettingsDialogOpen(true);
+                  }
+                }}>
+                  <Plus size={16} className="mr-2" /> Add Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {siteSettings?.navbarLinks?.map((link, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 border border-border/50 group">
+                      <Navigation size={16} className="text-muted-foreground" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold truncate">{link.label}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">{link.href}</p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-destructive opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => {
+                        if (siteSettings) {
+                          const newLinks = siteSettings.navbarLinks.filter((_, index) => index !== i);
+                          setEditingSettings({ ...siteSettings, navbarLinks: newLinks });
+                          setIsSettingsDialogOpen(true);
+                        }
+                      }}>
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  ))}
+                  {(!siteSettings?.navbarLinks || siteSettings.navbarLinks.length === 0) && (
+                    <p className="text-sm text-muted-foreground text-center py-4">No navbar links defined.</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-2xl border-muted/50">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0">
+                <div>
+                  <CardTitle>Footer Links</CardTitle>
+                  <CardDescription>Links shown in the website footer.</CardDescription>
+                </div>
+                <Button variant="outline" size="sm" className="rounded-xl" onClick={() => {
+                  if (siteSettings) {
+                    const newLinks = [...(siteSettings.footerLinks || []), { label: "New Link", href: "#" }];
+                    setEditingSettings({ ...siteSettings, footerLinks: newLinks });
+                    setIsSettingsDialogOpen(true);
+                  }
+                }}>
+                  <Plus size={16} className="mr-2" /> Add Link
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {siteSettings?.footerLinks?.map((link, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-muted/30 border border-border/50 group">
+                      <LinkIcon size={16} className="text-muted-foreground" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold truncate">{link.label}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">{link.href}</p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-destructive opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => {
+                        if (siteSettings) {
+                          const newLinks = siteSettings.footerLinks.filter((_, index) => index !== i);
+                          setEditingSettings({ ...siteSettings, footerLinks: newLinks });
+                          setIsSettingsDialogOpen(true);
+                        }
+                      }}>
+                        <Trash2 size={14} />
+                      </Button>
+                    </div>
+                  ))}
+                  {(!siteSettings?.footerLinks || siteSettings.footerLinks.length === 0) && (
+                    <p className="text-sm text-muted-foreground text-center py-4">No footer links defined.</p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
       </Tabs>

@@ -13,7 +13,10 @@ import {
   MessageSquare,
   Shield,
   ChevronRight,
-  LogOut
+  LogOut,
+  Smartphone,
+  Megaphone,
+  FileText
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { puchoLogoBase64 as puchoLogo } from "@/assets/logo-base64";
@@ -63,7 +66,10 @@ export const AdminSidebar = () => {
     { icon: Mic2, label: "Artists", href: "/admin/artists" },
     { icon: Video, label: "Videos", href: "/admin/videos" },
     { icon: Globe, label: "Site Editor", href: "/admin/site" },
+    { icon: Smartphone, label: "Platforms", href: "/admin/platforms" },
     { icon: BarChart3, label: "Analytics", href: "/admin/analytics" },
+    { icon: Megaphone, label: "Announcements", href: "/admin/announcements" },
+    { icon: FileText, label: "Legal", href: "/admin/legal" },
     { icon: CreditCard, label: "Finance", href: "/admin/finance" },
     { icon: MessageSquare, label: "Support", href: "/admin/support", badge: "4" },
   ];
@@ -82,7 +88,7 @@ export const AdminSidebar = () => {
 
       <div className="flex-1 overflow-y-auto px-4 space-y-1 py-2">
         <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4 mb-2 mt-4">Main Menu</p>
-        {menuItems.slice(0, 6).map((item) => (
+        {menuItems.slice(0, 7).map((item) => (
           <SidebarItem 
             key={item.href} 
             icon={item.icon}
@@ -94,7 +100,7 @@ export const AdminSidebar = () => {
         ))}
 
         <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-4 mb-2 mt-6">Operations</p>
-        {menuItems.slice(6).map((item) => (
+        {menuItems.slice(7).map((item) => (
           <SidebarItem 
             key={item.href} 
             icon={item.icon}

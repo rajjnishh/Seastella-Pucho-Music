@@ -15,6 +15,7 @@ import {
   AreaChart,
   Area
 } from "recharts";
+import { useTheme } from "next-themes";
 import { 
   TrendingUp, 
   Users, 
@@ -30,7 +31,9 @@ import {
   AlertCircle,
   ExternalLink,
   FileSpreadsheet,
-  ArrowLeft
+  ArrowLeft,
+  Sun,
+  Moon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/useAuth";
@@ -67,6 +70,7 @@ const Dashboard = () => {
   const { profile } = useProfile();
   const { analytics, royalties, loading } = useDashboardData();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
   const [date, setDate] = useState<DateRange | undefined>({
     from: addDays(new Date(), -7),
     to: new Date(),
@@ -198,6 +202,16 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-md border-border bg-background shadow-sm hover:bg-secondary/50"
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+          </Button>
+          
           <div className="flex items-center gap-2 bg-background border rounded-md px-3 py-1.5 shadow-sm">
             <Calendar size={16} className="text-muted-foreground" />
             <input

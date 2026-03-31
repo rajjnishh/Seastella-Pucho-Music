@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/lib/useProfile";
+import { useTheme } from "next-themes";
 import { NotificationsPopover } from "@/components/NotificationsPopover";
 import { puchoLogoBase64 as puchoLogo } from "@/assets/logo-base64"; // Main brand logo
 
@@ -34,17 +35,8 @@ const Navbar = () => {
   const { user } = useAuth();
   const { profile } = useProfile();
   const navigate = useNavigate();
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const { theme, setTheme } = useTheme();
   const location = useLocation();
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-  }, [theme]);
 
   useEffect(() => {
     const handleScroll = () => {

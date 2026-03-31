@@ -14,7 +14,7 @@ import {
   Cell
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Users, Music, Video, Mic2, TrendingUp, DollarSign, PlayCircle, UserPlus, Shield } from "lucide-react";
+import { Users, Music, Video, Mic2, TrendingUp, DollarSign, PlayCircle, UserPlus, Shield, Percent, UserMinus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const data = [
@@ -63,13 +63,13 @@ export const AdminDashboard = ({ stats }: { stats: any }) => {
         <Card className="border-none shadow-sm bg-gradient-to-br from-blue-500/10 to-transparent">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-blue-500 text-white rounded-2xl shadow-lg shadow-blue-500/20">
-              <Music size={24} />
+              <DollarSign size={24} />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Releases</p>
-              <h3 className="text-2xl font-bold">{stats.totalReleases}</h3>
+              <p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
+              <h3 className="text-2xl font-bold">₹{stats.totalRevenue?.toLocaleString() || 0}</h3>
               <p className="text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1">
-                <TrendingUp size={12} /> +5% this month
+                <TrendingUp size={12} /> +15% this month
               </p>
             </div>
           </CardContent>
@@ -78,13 +78,13 @@ export const AdminDashboard = ({ stats }: { stats: any }) => {
         <Card className="border-none shadow-sm bg-gradient-to-br from-emerald-500/10 to-transparent">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-emerald-500 text-white rounded-2xl shadow-lg shadow-emerald-500/20">
-              <Mic2 size={24} />
+              <Percent size={24} />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Artists</p>
-              <h3 className="text-2xl font-bold">{stats.totalArtists}</h3>
+              <p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
+              <h3 className="text-2xl font-bold">{stats.conversionRate || 0}%</h3>
               <p className="text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1">
-                <TrendingUp size={12} /> +8% this month
+                <TrendingUp size={12} /> +2% this month
               </p>
             </div>
           </CardContent>
@@ -93,13 +93,13 @@ export const AdminDashboard = ({ stats }: { stats: any }) => {
         <Card className="border-none shadow-sm bg-gradient-to-br from-amber-500/10 to-transparent">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-amber-500 text-white rounded-2xl shadow-lg shadow-amber-500/20">
-              <Video size={24} />
+              <UserMinus size={24} />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Videos</p>
-              <h3 className="text-2xl font-bold">{stats.totalVideos}</h3>
+              <p className="text-sm font-medium text-muted-foreground">Churn Rate</p>
+              <h3 className="text-2xl font-bold">{stats.churnRate || 0}%</h3>
               <p className="text-xs text-rose-500 font-medium flex items-center gap-1 mt-1">
-                <TrendingUp size={12} className="rotate-180" /> -2% this month
+                <TrendingUp size={12} className="rotate-180" /> -1% this month
               </p>
             </div>
           </CardContent>

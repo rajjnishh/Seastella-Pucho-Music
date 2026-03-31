@@ -111,7 +111,27 @@
         "heroSubtitle": { "type": "string" },
         "contactEmail": { "type": "string" },
         "contactPhone": { "type": "string" },
-        "address": { "type": "string" }
+        "address": { "type": "string" },
+        "navbarLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "href": { "type": "string" }
+            }
+          }
+        },
+        "footerLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "href": { "type": "string" }
+            }
+          }
+        }
       }
     },
     "Service": {
@@ -132,13 +152,53 @@
       "type": "object",
       "properties": {
         "name": { "type": "string" },
-        "price": { "type": "string" },
+        "price": { "type": "number" },
+        "currency": { "type": "string" },
         "description": { "type": "string" },
         "features": { "type": "array", "items": { "type": "string" } },
         "isPopular": { "type": "boolean" },
-        "buttonText": { "type": "string" }
+        "buttonText": { "type": "string" },
+        "hasFreeTrial": { "type": "boolean" },
+        "trialDays": { "type": "number" }
       },
       "required": ["name", "price"]
+    },
+    "Platform": {
+      "title": "Platform",
+      "description": "Streaming platform configuration",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logo": { "type": "string" },
+        "link": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["name", "logo"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Global banners or popups",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string", "enum": ["banner", "popup", "email"] },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "type", "isActive"]
+    },
+    "Policy": {
+      "title": "Policy",
+      "description": "Legal documents and policies",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string", "enum": ["terms", "privacy", "copyright"] },
+        "lastUpdated": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "type"]
     },
     "BlogPost": {
       "title": "Blog Post",
@@ -167,6 +227,9 @@
     "/site_settings/global": { "schema": "SiteSettings", "description": "Global site configuration" },
     "/services/{serviceId}": { "schema": "Service", "description": "Company services" },
     "/pricing_plans/{planId}": { "schema": "PricingPlan", "description": "Pricing tiers" },
-    "/blog_posts/{postId}": { "schema": "BlogPost", "description": "Blog articles" }
+    "/blog_posts/{postId}": { "schema": "BlogPost", "description": "Blog articles" },
+    "/platforms/{platformId}": { "schema": "Platform", "description": "Streaming platforms" },
+    "/announcements/{announcementId}": { "schema": "Announcement", "description": "Site announcements" },
+    "/policies/{policyId}": { "schema": "Policy", "description": "Legal policies" }
   }
 }

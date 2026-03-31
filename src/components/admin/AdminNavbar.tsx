@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Bell, User, Settings, Shield, LogOut } from "lucide-react";
+import { Search, Bell, User, Settings, Shield, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,6 +13,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/lib/useAuth";
 import { useProfile } from "@/lib/useProfile";
+import { useTheme } from "next-themes";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -21,6 +22,7 @@ export const AdminNavbar = () => {
   const { user } = useAuth();
   const { profile } = useProfile();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   const handleLogout = async () => {
     try {
@@ -44,6 +46,16 @@ export const AdminNavbar = () => {
       </div>
 
       <div className="flex items-center gap-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-xl hover:bg-secondary/50 text-muted-foreground hover:text-foreground"
+          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+          aria-label="Toggle theme"
+        >
+          {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+        </Button>
+
         <Button variant="ghost" size="icon" className="relative rounded-xl hover:bg-secondary/50">
           <Bell size={20} className="text-muted-foreground" />
           <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-card"></span>

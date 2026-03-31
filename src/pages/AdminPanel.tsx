@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
-import { useAdmin, Service, PricingPlan, BlogPost, SiteSettings, Stat } from "@/lib/useAdmin";
+import { useAdmin, Service, PricingPlan, BlogPost, SiteSettings, Stat, Platform, Announcement, Policy } from "@/lib/useAdmin";
 import { useProfile } from "@/lib/useProfile";
 import { useAuth } from "@/lib/useAuth";
 
@@ -26,6 +26,9 @@ import { AdminDashboard } from "@/components/admin/AdminDashboard";
 import { UserManagement } from "@/components/admin/UserManagement";
 import { ContentManagement } from "@/components/admin/ContentManagement";
 import { SiteEditor } from "@/components/admin/SiteEditor";
+import { PlatformManagement } from "@/components/admin/PlatformManagement";
+import { AnnouncementManagement } from "@/components/admin/AnnouncementManagement";
+import { PolicyManagement } from "@/components/admin/PolicyManagement";
 
 export const AdminPanel = () => {
   const navigate = useNavigate();
@@ -39,6 +42,9 @@ export const AdminPanel = () => {
     siteSettings,
     services,
     pricingPlans,
+    platforms,
+    announcements,
+    policies,
     blogPosts,
     stats, 
     loading: adminLoading, 
@@ -55,6 +61,12 @@ export const AdminPanel = () => {
     deleteService,
     savePricingPlan,
     deletePricingPlan,
+    savePlatform,
+    deletePlatform,
+    saveAnnouncement,
+    deleteAnnouncement,
+    savePolicy,
+    deletePolicy,
     saveStat,
     deleteStat,
     saveBlogPost,
@@ -65,6 +77,9 @@ export const AdminPanel = () => {
   const [isSettingsDialogOpen, setIsSettingsDialogOpen] = useState(false);
   const [isServiceDialogOpen, setIsServiceDialogOpen] = useState(false);
   const [isPlanDialogOpen, setIsPlanDialogOpen] = useState(false);
+  const [isPlatformDialogOpen, setIsPlatformDialogOpen] = useState(false);
+  const [isAnnouncementDialogOpen, setIsAnnouncementDialogOpen] = useState(false);
+  const [isPolicyDialogOpen, setIsPolicyDialogOpen] = useState(false);
   const [isStatDialogOpen, setIsStatDialogOpen] = useState(false);
   const [isBlogDialogOpen, setIsBlogDialogOpen] = useState(false);
   const [isConfirmDeleteDialogOpen, setIsConfirmDeleteDialogOpen] = useState(false);
@@ -72,6 +87,9 @@ export const AdminPanel = () => {
   
   const [editingService, setEditingService] = useState<Partial<Service> | null>(null);
   const [editingPlan, setEditingPlan] = useState<Partial<PricingPlan> | null>(null);
+  const [editingPlatform, setEditingPlatform] = useState<Partial<Platform> | null>(null);
+  const [editingAnnouncement, setEditingAnnouncement] = useState<Partial<Announcement> | null>(null);
+  const [editingPolicy, setEditingPolicy] = useState<Partial<Policy> | null>(null);
   const [editingStat, setEditingStat] = useState<Partial<Stat> | null>(null);
   const [editingPost, setEditingPost] = useState<Partial<BlogPost> | null>(null);
   const [editingSettings, setEditingSettings] = useState<SiteSettings | null>(null);
@@ -121,7 +139,7 @@ export const AdminPanel = () => {
     setIsConfirmDeleteDialogOpen(true);
   };
 
-  const handleDeleteItem = (type: 'release' | 'artist' | 'video' | 'service' | 'plan' | 'stat' | 'blog', id: string) => {
+  const handleDeleteItem = (type: 'release' | 'artist' | 'video' | 'service' | 'plan' | 'stat' | 'blog' | 'platform' | 'announcement' | 'policy', id: string) => {
     setItemToDelete({ type, id });
     setIsConfirmDeleteDialogOpen(true);
   };
@@ -135,6 +153,9 @@ export const AdminPanel = () => {
       if (type === 'video') await deleteVideo(id);
       if (type === 'service') await deleteService(id);
       if (type === 'plan') await deletePricingPlan(id);
+      if (type === 'platform') await deletePlatform(id);
+      if (type === 'announcement') await deleteAnnouncement(id);
+      if (type === 'policy') await deletePolicy(id);
       if (type === 'stat') await deleteStat(id);
       if (type === 'blog') await deleteBlogPost(id);
       if (type === 'user') await deleteUser(id);
@@ -184,6 +205,42 @@ export const AdminPanel = () => {
       setEditingPlan(null);
     } catch (error) {
       toast.error("Failed to save plan");
+    }
+  };
+
+  const handleSavePlatform = async () => {
+    if (!editingPlatform) return;
+    try {
+      await savePlatform(editingPlatform);
+      toast.success("Platform saved");
+      setIsPlatformDialogOpen(false);
+      setEditingPlatform(null);
+    } catch (error) {
+      toast.error("Failed to save platform");
+    }
+  };
+
+  const handleSaveAnnouncement = async () => {
+    if (!editingAnnouncement) return;
+    try {
+      await saveAnnouncement(editingAnnouncement);
+      toast.success("Announcement saved");
+      setIsAnnouncementDialogOpen(false);
+      setEditingAnnouncement(null);
+    } catch (error) {
+      toast.error("Failed to save announcement");
+    }
+  };
+
+  const handleSavePolicy = async () => {
+    if (!editingPolicy) return;
+    try {
+      await savePolicy(editingPolicy);
+      toast.success("Policy saved");
+      setIsPolicyDialogOpen(false);
+      setEditingPolicy(null);
+    } catch (error) {
+      toast.error("Failed to save policy");
     }
   };
 
@@ -289,6 +346,30 @@ export const AdminPanel = () => {
             profile={profile}
           />
         } />
+        <Route path="platforms" element={
+          <PlatformManagement 
+            platforms={platforms}
+            setEditingPlatform={setEditingPlatform}
+            setIsPlatformDialogOpen={setIsPlatformDialogOpen}
+            handleDeleteItem={handleDeleteItem}
+          />
+        } />
+        <Route path="announcements" element={
+          <AnnouncementManagement 
+            announcements={announcements}
+            setEditingAnnouncement={setEditingAnnouncement}
+            setIsAnnouncementDialogOpen={setIsAnnouncementDialogOpen}
+            handleDeleteItem={handleDeleteItem}
+          />
+        } />
+        <Route path="legal" element={
+          <PolicyManagement 
+            policies={policies}
+            setEditingPolicy={setEditingPolicy}
+            setIsPolicyDialogOpen={setIsPolicyDialogOpen}
+            handleDeleteItem={handleDeleteItem}
+          />
+        } />
         {/* Fallback to dashboard */}
         <Route path="*" element={<AdminDashboard stats={stats} />} />
       </Routes>
@@ -299,7 +380,7 @@ export const AdminPanel = () => {
           <DialogHeader>
             <DialogTitle>Edit Site Settings</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 py-4">
+          <div className="space-y-4 py-4 max-h-[70vh] overflow-y-auto px-1">
             <div className="space-y-2">
               <Label>Hero Title</Label>
               <Input className="rounded-xl" value={editingSettings?.heroTitle || ""} onChange={(e) => setEditingSettings(prev => prev ? {...prev, heroTitle: e.target.value} : null)} />
@@ -317,6 +398,62 @@ export const AdminPanel = () => {
                 <Label>Contact Phone</Label>
                 <Input className="rounded-xl" value={editingSettings?.contactPhone || ""} onChange={(e) => setEditingSettings(prev => prev ? {...prev, contactPhone: e.target.value} : null)} />
               </div>
+            </div>
+            
+            <div className="space-y-4 pt-4 border-t border-border/50">
+              <h4 className="font-bold text-sm">Navbar Links</h4>
+              {editingSettings?.navbarLinks?.map((link, i) => (
+                <div key={i} className="grid grid-cols-2 gap-2">
+                  <Input 
+                    placeholder="Label" 
+                    className="rounded-xl" 
+                    value={link.label} 
+                    onChange={(e) => {
+                      const newLinks = [...(editingSettings.navbarLinks || [])];
+                      newLinks[i] = { ...newLinks[i], label: e.target.value };
+                      setEditingSettings({ ...editingSettings, navbarLinks: newLinks });
+                    }} 
+                  />
+                  <Input 
+                    placeholder="Href" 
+                    className="rounded-xl" 
+                    value={link.href} 
+                    onChange={(e) => {
+                      const newLinks = [...(editingSettings.navbarLinks || [])];
+                      newLinks[i] = { ...newLinks[i], href: e.target.value };
+                      setEditingSettings({ ...editingSettings, navbarLinks: newLinks });
+                    }} 
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-border/50">
+              <h4 className="font-bold text-sm">Footer Links</h4>
+              {editingSettings?.footerLinks?.map((link, i) => (
+                <div key={i} className="grid grid-cols-2 gap-2">
+                  <Input 
+                    placeholder="Label" 
+                    className="rounded-xl" 
+                    value={link.label} 
+                    onChange={(e) => {
+                      const newLinks = [...(editingSettings.footerLinks || [])];
+                      newLinks[i] = { ...newLinks[i], label: e.target.value };
+                      setEditingSettings({ ...editingSettings, footerLinks: newLinks });
+                    }} 
+                  />
+                  <Input 
+                    placeholder="Href" 
+                    className="rounded-xl" 
+                    value={link.href} 
+                    onChange={(e) => {
+                      const newLinks = [...(editingSettings.footerLinks || [])];
+                      newLinks[i] = { ...newLinks[i], href: e.target.value };
+                      setEditingSettings({ ...editingSettings, footerLinks: newLinks });
+                    }} 
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <DialogFooter>
@@ -360,9 +497,15 @@ export const AdminPanel = () => {
               <Label>Plan Name</Label>
               <Input className="rounded-xl" value={editingPlan?.name || ""} onChange={(e) => setEditingPlan(prev => ({...prev, name: e.target.value}))} />
             </div>
-            <div className="space-y-2">
-              <Label>Price</Label>
-              <Input className="rounded-xl" value={editingPlan?.price || ""} onChange={(e) => setEditingPlan(prev => ({...prev, price: e.target.value}))} />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Price</Label>
+                <Input type="number" className="rounded-xl" value={editingPlan?.price || 0} onChange={(e) => setEditingPlan(prev => ({...prev, price: parseFloat(e.target.value)}))} />
+              </div>
+              <div className="space-y-2">
+                <Label>Currency</Label>
+                <Input className="rounded-xl" value={editingPlan?.currency || "INR"} onChange={(e) => setEditingPlan(prev => ({...prev, currency: e.target.value}))} />
+              </div>
             </div>
             <div className="space-y-2">
               <Label>Features (comma separated)</Label>
@@ -372,6 +515,23 @@ export const AdminPanel = () => {
                 value={editingPlan?.features?.join(",") || ""} 
                 onChange={(e) => setEditingPlan(prev => ({...prev, features: e.target.value.split(",")}))} 
               />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={!!editingPlan?.hasFreeTrial} 
+                  onChange={(e) => setEditingPlan(prev => ({...prev, hasFreeTrial: e.target.checked}))} 
+                  className="rounded border-gray-300 text-primary focus:ring-primary"
+                />
+                <Label>Free Trial</Label>
+              </div>
+              {editingPlan?.hasFreeTrial && (
+                <div className="space-y-2">
+                  <Label>Trial Days</Label>
+                  <Input type="number" className="rounded-xl" value={editingPlan?.trialDays || 0} onChange={(e) => setEditingPlan(prev => ({...prev, trialDays: parseInt(e.target.value)}))} />
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-2">
               <input 
@@ -385,6 +545,103 @@ export const AdminPanel = () => {
           </div>
           <DialogFooter>
             <Button onClick={handleSavePlan} className="rounded-xl">Save Plan</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPlatformDialogOpen} onOpenChange={setIsPlatformDialogOpen}>
+        <DialogContent className="rounded-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingPlatform?.id ? 'Edit Platform' : 'Add Platform'}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Platform Name</Label>
+              <Input className="rounded-xl" value={editingPlatform?.name || ""} onChange={(e) => setEditingPlatform(prev => ({...prev, name: e.target.value}))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Logo URL</Label>
+              <Input className="rounded-xl" value={editingPlatform?.logo || ""} onChange={(e) => setEditingPlatform(prev => ({...prev, logo: e.target.value}))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Link</Label>
+              <Input className="rounded-xl" value={editingPlatform?.link || ""} onChange={(e) => setEditingPlatform(prev => ({...prev, link: e.target.value}))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Order</Label>
+              <Input type="number" className="rounded-xl" value={editingPlatform?.order || 0} onChange={(e) => setEditingPlatform(prev => ({...prev, order: parseInt(e.target.value)}))} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSavePlatform} className="rounded-xl">Save Platform</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isAnnouncementDialogOpen} onOpenChange={setIsAnnouncementDialogOpen}>
+        <DialogContent className="rounded-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingAnnouncement?.id ? 'Edit Announcement' : 'Add Announcement'}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input className="rounded-xl" value={editingAnnouncement?.title || ""} onChange={(e) => setEditingAnnouncement(prev => ({...prev, title: e.target.value}))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Content</Label>
+              <Textarea className="rounded-xl" value={editingAnnouncement?.content || ""} onChange={(e) => setEditingAnnouncement(prev => ({...prev, content: e.target.value}))} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Type</Label>
+                <select 
+                  className="w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                  value={editingAnnouncement?.type || "banner"}
+                  onChange={(e) => setEditingAnnouncement(prev => ({...prev, type: e.target.value as 'banner' | 'popup'}))}
+                >
+                  <option value="banner">Banner</option>
+                  <option value="popup">Popup</option>
+                </select>
+              </div>
+              <div className="space-y-2">
+                <Label>Link (Optional)</Label>
+                <Input className="rounded-xl" value={editingAnnouncement?.link || ""} onChange={(e) => setEditingAnnouncement(prev => ({...prev, link: e.target.value}))} />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <input 
+                type="checkbox" 
+                checked={!!editingAnnouncement?.active} 
+                onChange={(e) => setEditingAnnouncement(prev => ({...prev, active: e.target.checked}))} 
+                className="rounded border-gray-300 text-primary focus:ring-primary"
+              />
+              <Label>Active</Label>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSaveAnnouncement} className="rounded-xl">Save Announcement</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPolicyDialogOpen} onOpenChange={setIsPolicyDialogOpen}>
+        <DialogContent className="max-w-2xl rounded-2xl">
+          <DialogHeader>
+            <DialogTitle>{editingPolicy?.id ? 'Edit Policy' : 'Add Policy'}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Title</Label>
+              <Input className="rounded-xl" value={editingPolicy?.title || ""} onChange={(e) => setEditingPolicy(prev => ({...prev, title: e.target.value}))} />
+            </div>
+            <div className="space-y-2">
+              <Label>Content (Markdown supported)</Label>
+              <Textarea className="min-h-[300px] rounded-xl" value={editingPolicy?.content || ""} onChange={(e) => setEditingPolicy(prev => ({...prev, content: e.target.value}))} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSavePolicy} className="rounded-xl">Save Policy</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

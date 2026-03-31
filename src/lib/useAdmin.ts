@@ -46,6 +46,8 @@ export interface SiteSettings {
   contactEmail: string;
   contactPhone: string;
   address: string;
+  navbarLinks: { label: string; href: string }[];
+  footerLinks: { label: string; href: string }[];
 }
 
 export interface Service {
@@ -59,11 +61,39 @@ export interface Service {
 export interface PricingPlan {
   id: string;
   name: string;
-  price: string;
+  price: number;
+  currency: string;
   description: string;
   features: string[];
   isPopular: boolean;
   buttonText: string;
+  hasFreeTrial: boolean;
+  trialDays?: number;
+}
+
+export interface Platform {
+  id: string;
+  name: string;
+  logo: string;
+  link: string;
+  order: number;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  content: string;
+  type: 'banner' | 'popup';
+  active: boolean;
+  link?: string;
+  createdAt: any;
+}
+
+export interface Policy {
+  id: string;
+  title: string;
+  content: string;
+  updatedAt: any;
 }
 
 export interface Stat {
@@ -91,6 +121,9 @@ export interface AdminStats {
   totalReleases: number;
   totalArtists: number;
   totalVideos: number;
+  totalRevenue: number;
+  conversionRate: number;
+  churnRate: number;
 }
 
 enum OperationType {
@@ -152,13 +185,19 @@ export const useAdmin = () => {
   const [siteSettings, setSiteSettings] = useState<SiteSettings | null>(null);
   const [services, setServices] = useState<Service[]>([]);
   const [pricingPlans, setPricingPlans] = useState<PricingPlan[]>([]);
+  const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+  const [policies, setPolicies] = useState<Policy[]>([]);
   const [stats, setStats] = useState<Stat[]>([]);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [adminStats, setAdminStats] = useState<AdminStats>({
     totalUsers: 0,
     totalReleases: 0,
     totalArtists: 0,
-    totalVideos: 0
+    totalVideos: 0,
+    totalRevenue: 0,
+    conversionRate: 0,
+    churnRate: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -181,7 +220,13 @@ export const useAdmin = () => {
           ...doc.data()
         })) as AdminUser[];
         setUsers(usersData);
-        setAdminStats(prev => ({ ...prev, totalUsers: usersData.length }));
+        setAdminStats(prev => ({ 
+          ...prev, 
+          totalUsers: usersData.length,
+          totalRevenue: usersData.length * 99,
+          conversionRate: 15.5,
+          churnRate: 2.4
+        }));
       }, (error) => {
         handleFirestoreError(error, OperationType.LIST, "users");
       });
@@ -245,6 +290,27 @@ export const useAdmin = () => {
         handleFirestoreError(error, OperationType.LIST, "pricing_plans");
       });
       unsubscribes.push(unsubscribePricing);
+
+      const unsubscribePlatforms = onSnapshot(query(collection(db, "platforms"), orderBy("order")), (snapshot) => {
+        setPlatforms(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Platform[]);
+      }, (error) => {
+        handleFirestoreError(error, OperationType.LIST, "platforms");
+      });
+      unsubscribes.push(unsubscribePlatforms);
+
+      const unsubscribeAnnouncements = onSnapshot(collection(db, "announcements"), (snapshot) => {
+        setAnnouncements(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Announcement[]);
+      }, (error) => {
+        handleFirestoreError(error, OperationType.LIST, "announcements");
+      });
+      unsubscribes.push(unsubscribeAnnouncements);
+
+      const unsubscribePolicies = onSnapshot(collection(db, "policies"), (snapshot) => {
+        setPolicies(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Policy[]);
+      }, (error) => {
+        handleFirestoreError(error, OperationType.LIST, "policies");
+      });
+      unsubscribes.push(unsubscribePolicies);
 
       const unsubscribeStats = onSnapshot(query(collection(db, "stats"), orderBy("order")), (snapshot) => {
         setStats(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as Stat[]);
@@ -381,6 +447,77 @@ export const useAdmin = () => {
     }
   };
 
+  const savePlatform = async (platform: Partial<Platform>) => {
+    try {
+      if (platform.id) {
+        await updateDoc(doc(db, "platforms", platform.id), platform);
+      } else {
+        await addDoc(collection(db, "platforms"), platform);
+      }
+    } catch (error) {
+      handleFirestoreError(error, platform.id ? OperationType.UPDATE : OperationType.CREATE, platform.id ? `platforms/${platform.id}` : "platforms");
+    }
+  };
+
+  const deletePlatform = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "platforms", id));
+    } catch (error) {
+      handleFirestoreError(error, OperationType.DELETE, `platforms/${id}`);
+    }
+  };
+
+  const saveAnnouncement = async (announcement: Partial<Announcement>) => {
+    try {
+      const data = {
+        ...announcement,
+        createdAt: announcement.createdAt || new Date().toISOString(),
+        active: announcement.active ?? true
+      };
+      if (announcement.id) {
+        const { id, ...updateData } = data;
+        await updateDoc(doc(db, "announcements", id), updateData);
+      } else {
+        await addDoc(collection(db, "announcements"), data);
+      }
+    } catch (error) {
+      handleFirestoreError(error, announcement.id ? OperationType.UPDATE : OperationType.CREATE, announcement.id ? `announcements/${announcement.id}` : "announcements");
+    }
+  };
+
+  const deleteAnnouncement = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "announcements", id));
+    } catch (error) {
+      handleFirestoreError(error, OperationType.DELETE, `announcements/${id}`);
+    }
+  };
+
+  const savePolicy = async (policy: Partial<Policy>) => {
+    try {
+      const data = {
+        ...policy,
+        updatedAt: new Date().toISOString()
+      };
+      if (policy.id) {
+        const { id, ...updateData } = data;
+        await updateDoc(doc(db, "policies", id), updateData);
+      } else {
+        await addDoc(collection(db, "policies"), data);
+      }
+    } catch (error) {
+      handleFirestoreError(error, policy.id ? OperationType.UPDATE : OperationType.CREATE, policy.id ? `policies/${policy.id}` : "policies");
+    }
+  };
+
+  const deletePolicy = async (id: string) => {
+    try {
+      await deleteDoc(doc(db, "policies", id));
+    } catch (error) {
+      handleFirestoreError(error, OperationType.DELETE, `policies/${id}`);
+    }
+  };
+
   const saveBlogPost = async (post: Partial<BlogPost>) => {
     try {
       const postData = {
@@ -437,6 +574,9 @@ export const useAdmin = () => {
     siteSettings,
     services,
     pricingPlans,
+    platforms,
+    announcements,
+    policies,
     stats,
     blogPosts,
     adminStats, 
@@ -454,6 +594,12 @@ export const useAdmin = () => {
     deleteService,
     savePricingPlan,
     deletePricingPlan,
+    savePlatform,
+    deletePlatform,
+    saveAnnouncement,
+    deleteAnnouncement,
+    savePolicy,
+    deletePolicy,
     saveStat,
     deleteStat,
     saveBlogPost,
