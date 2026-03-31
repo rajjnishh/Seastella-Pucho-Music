@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const plans = [
+const defaultPlans = [
   {
     name: "Free",
     price: "₹0",
@@ -65,6 +66,19 @@ const plans = [
 ];
 
 const PricingSection = () => {
+  const { plans: cmsPlans } = useSiteContent();
+
+  const displayPlans = cmsPlans.length > 0
+    ? cmsPlans.map(p => ({
+        name: p.name,
+        price: p.price,
+        period: "one-time",
+        popular: p.isPopular,
+        features: p.features,
+        buttonText: p.buttonText
+      }))
+    : defaultPlans;
+
   return (
     <section className="section-padding" id="pricing">
       <div className="container-main">
@@ -95,7 +109,7 @@ const PricingSection = () => {
             }
           }}
         >
-          {plans.map((plan) => (
+          {displayPlans.map((plan) => (
             <motion.div
               key={plan.name}
               variants={{
@@ -126,7 +140,7 @@ const PricingSection = () => {
 
               <Link to={plan.name === "Enterprise" ? "/contact" : "/signup"} className="block mt-8">
                 <Button variant={plan.popular ? "hero" : "heroOutline"} size="xl" className="w-full">
-                  {plan.name === "Enterprise" ? "Contact Sales" : "Get Started"}
+                  {plan.buttonText || (plan.name === "Enterprise" ? "Contact Sales" : "Get Started")}
                 </Button>
               </Link>
             </motion.div>

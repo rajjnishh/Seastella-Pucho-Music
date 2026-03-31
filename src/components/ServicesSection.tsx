@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const services = [
+const defaultServices = [
   {
     number: "01",
     title: "Audio",
@@ -36,6 +37,19 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const { services: cmsServices } = useSiteContent();
+  
+  const displayServices = cmsServices.length > 0 
+    ? cmsServices.map((s, i) => ({
+        number: (i + 1).toString().padStart(2, '0'),
+        title: s.title,
+        highlight: "",
+        description: s.description,
+        image: `https://picsum.photos/seed/${s.title}/800/600`,
+        reversed: i % 2 !== 0
+      }))
+    : defaultServices;
+
   return (
     <section className="section-padding bg-card" id="services">
       <div className="container-main">
@@ -52,7 +66,7 @@ const ServicesSection = () => {
         </motion.div>
 
         <div className="space-y-24 lg:space-y-32">
-          {services.map((service) => (
+          {displayServices.map((service) => (
             <motion.div
               key={service.number}
               initial={{ opacity: 0, y: 40 }}
@@ -77,8 +91,12 @@ const ServicesSection = () => {
               <div className="flex-1 space-y-5">
                 <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
                   {service.title}
-                  <br />
-                  <span className="text-accent-highlight">{service.highlight}</span>
+                  {service.highlight && (
+                    <>
+                      <br />
+                      <span className="text-accent-highlight">{service.highlight}</span>
+                    </>
+                  )}
                 </h3>
                 <p 
                   className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-lg"

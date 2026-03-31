@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Facebook, Instagram, Youtube } from "lucide-react";
 import { puchoLogoBase64 as puchoLogo } from "@/assets/logo-base64";
+import { useSiteContent } from "@/lib/useSiteContent";
 
 const VinylRecord = () => {
+// ... (rest of VinylRecord component remains the same)
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -57,6 +59,8 @@ const VinylRecord = () => {
 const springTransition = { type: "spring" as const, duration: 0.5, bounce: 0.2 };
 
 const HeroSection = () => {
+  const { settings } = useSiteContent();
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-black">
       {/* Background Video */}
@@ -84,11 +88,15 @@ const HeroSection = () => {
           className="lg:col-span-3 space-y-6"
         >
           <h1 className="heading-display text-white">
-            Start Your Music Journey{" "}
-            <span className="text-white">Globally</span> with <span className="whitespace-nowrap"><span className="text-primary">PUCHO</span> Music</span>
+            {settings?.heroTitle || (
+              <>
+                Start Your Music Journey{" "}
+                <span className="text-white">Globally</span> with <span className="whitespace-nowrap"><span className="text-primary">PUCHO</span> Music</span>
+              </>
+            )}
           </h1>
           <p className="body-text text-gray-200 max-w-xl">
-            Join 50,000+ independent artists distributing to Spotify, Apple Music, and 250+ stores. You keep the rights. We handle the rest.
+            {settings?.heroSubtitle || "Join 50,000+ independent artists distributing to Spotify, Apple Music, and 250+ stores. You keep the rights. We handle the rest."}
           </p>
           <div className="flex flex-wrap gap-4 pt-2">
             <Link to="/signup">

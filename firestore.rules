@@ -46,8 +46,11 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "iamtheironman0505@gmail.com" && request.auth.token.email_verified == true));
+        (
+          request.auth.uid == "ZmUDq14XQtcKLQOGBwlDvZL0bje2" ||
+          request.auth.token.email == "iamtheironman0505@gmail.com" ||
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+        );
     }
 
     function isValidEmail(email) {
@@ -55,7 +58,7 @@ service cloud.firestore {
     }
 
     function isValidUrl(url) {
-      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+      return url is string && (url == "" || url.matches("^https://.*") || url.matches("^http://.*"));
     }
 
     function isValidDateString(dateStr) {
@@ -91,13 +94,100 @@ service cloud.firestore {
              data.pending is number && data.pending >= 0;
     }
 
+    function isValidRelease(data) {
+      return data.keys().hasAll(['userId', 'title', 'artist', 'type', 'status']) &&
+             (data.userId == request.auth.uid || isAdmin()) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 200 &&
+             data.artist is string && data.artist.size() > 0 && data.artist.size() < 200 &&
+             data.type in ['Single', 'EP', 'Album'] &&
+             data.status in ['live', 'pending', 'processing', 'action_needed'] &&
+             (!('upc' in data) || (data.upc is string && data.upc.size() < 50)) &&
+             (!('platforms' in data) || (data.platforms is string && data.platforms.size() < 500)) &&
+             (!('releaseDate' in data) || (data.releaseDate is string && data.releaseDate.size() < 20)) &&
+             (!('createdAt' in data) || data.createdAt is timestamp || isValidDateString(data.createdAt));
+    }
+
+    function isValidArtist(data) {
+      return data.keys().hasAll(['userId', 'name', 'genre', 'status']) &&
+             (data.userId == request.auth.uid || isAdmin()) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
+             data.genre is string && data.genre.size() > 0 && data.genre.size() < 100 &&
+             data.status in ['active', 'on_tour', 'inactive'] &&
+             (!('monthlyListeners' in data) || data.monthlyListeners is number) &&
+             (!('createdAt' in data) || data.createdAt is timestamp || isValidDateString(data.createdAt));
+    }
+
+    function isValidVideo(data) {
+      return data.keys().hasAll(['userId', 'title', 'artist', 'status', 'uploadDate']) &&
+             (data.userId == request.auth.uid || isAdmin()) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 200 &&
+             data.artist is string && data.artist.size() > 0 && data.artist.size() < 200 &&
+             data.status in ['monetized', 'pending', 'not_monetized'] &&
+             data.uploadDate is string &&
+             (!('views' in data) || data.views is number) &&
+             (!('revenue' in data) || data.revenue is number) &&
+             (!('createdAt' in data) || data.createdAt is timestamp || isValidDateString(data.createdAt));
+    }
+
+    function isValidSiteSettings(data) {
+      return data.keys().hasOnly(['heroTitle', 'heroSubtitle', 'contactEmail', 'contactPhone', 'address']) &&
+             (!('heroTitle' in data) || (data.heroTitle is string && data.heroTitle.size() < 200)) &&
+             (!('heroSubtitle' in data) || (data.heroSubtitle is string && data.heroSubtitle.size() < 1000)) &&
+             (!('contactEmail' in data) || isValidEmail(data.contactEmail)) &&
+             (!('contactPhone' in data) || (data.contactPhone is string && data.contactPhone.size() < 20)) &&
+             (!('address' in data) || (data.address is string && data.address.size() < 500));
+    }
+
+    function isValidService(data) {
+      return data.keys().hasAll(['title', 'description']) &&
+             data.keys().hasOnly(['id', 'title', 'description', 'icon', 'order']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 100 &&
+             data.description is string && data.description.size() > 0 && data.description.size() < 1000 &&
+             (!('icon' in data) || (data.icon is string && data.icon.size() < 50)) &&
+             (!('order' in data) || data.order is number);
+    }
+
+    function isValidPricingPlan(data) {
+      return data.keys().hasAll(['name', 'price']) &&
+             data.keys().hasOnly(['id', 'name', 'price', 'description', 'features', 'isPopular', 'buttonText']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 100 &&
+             data.price is string && data.price.size() > 0 && data.price.size() < 50 &&
+             (!('description' in data) || (data.description is string && data.description.size() < 500)) &&
+             (!('features' in data) || data.features is list) &&
+             (!('isPopular' in data) || data.isPopular is bool) &&
+             (!('buttonText' in data) || (data.buttonText is string && data.buttonText.size() < 50));
+    }
+
+    function isValidBlogPost(data) {
+      return data.keys().hasAll(['title', 'content', 'author', 'date']) &&
+             data.keys().hasOnly(['id', 'title', 'excerpt', 'content', 'author', 'category', 'image', 'date', 'published']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() < 200 &&
+             data.content is string && data.content.size() > 0 && data.content.size() < 50000 &&
+             data.author is string && data.author.size() > 0 && data.author.size() < 100 &&
+             data.date is string &&
+             (!('excerpt' in data) || (data.excerpt is string && data.excerpt.size() < 1000)) &&
+             (!('category' in data) || (data.category is string && data.category.size() < 50)) &&
+             (!('image' in data) || isValidUrl(data.image)) &&
+             (!('published' in data) || data.published is bool);
+    }
+
+    function isValidStat(data) {
+      return data.keys().hasAll(['label', 'value']) &&
+             data.keys().hasOnly(['id', 'label', 'value', 'icon', 'order']) &&
+             data.label is string && data.label.size() > 0 && data.label.size() < 100 &&
+             data.value is string && data.value.size() > 0 && data.value.size() < 50 &&
+             (!('icon' in data) || (data.icon is string && data.icon.size() < 50)) &&
+             (!('order' in data) || data.order is number);
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
       allow create: if isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role in ['artist', 'client'];
-      allow update: if isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role;
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && request.resource.data.role == resource.data.role) || isAdmin();
       allow delete: if isAdmin();
     }
 
@@ -109,6 +199,60 @@ service cloud.firestore {
     match /royalties/{userId} {
       allow read: if isOwner(userId) || isAdmin();
       allow write: if isAdmin() && isValidRoyalties(request.resource.data);
+    }
+
+    match /releases/{releaseId} {
+      allow get: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow list: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+      allow create: if (isAuthenticated() && isValidRelease(request.resource.data)) || isAdmin();
+      allow update: if (isAuthenticated() && ((resource.data.userId == request.auth.uid && isValidRelease(request.resource.data)) || isAdmin()));
+      allow delete: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+    }
+
+    match /artists/{artistId} {
+      allow get: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow list: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+      allow create: if (isAuthenticated() && isValidArtist(request.resource.data)) || isAdmin();
+      allow update: if (isAuthenticated() && ((resource.data.userId == request.auth.uid && isValidArtist(request.resource.data)) || isAdmin()));
+      allow delete: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+    }
+
+    match /videos/{videoId} {
+      allow get: if (isAuthenticated() && resource.data.userId == request.auth.uid) || isAdmin();
+      allow list: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+      allow create: if (isAuthenticated() && isValidVideo(request.resource.data)) || isAdmin();
+      allow update: if (isAuthenticated() && ((resource.data.userId == request.auth.uid && isValidVideo(request.resource.data)) || isAdmin()));
+      allow delete: if (isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin()));
+    }
+
+    match /site_settings/{docId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidSiteSettings(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidService(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /pricing_plans/{planId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidPricingPlan(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /blog_posts/{postId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidBlogPost(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /stats/{statId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidStat(request.resource.data);
+      allow delete: if isAdmin();
     }
 
     match /{path=**} {

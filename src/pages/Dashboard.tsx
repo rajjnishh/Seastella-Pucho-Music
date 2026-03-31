@@ -56,7 +56,6 @@ import { PromotionTab } from "@/components/dashboard/PromotionTab";
 import { AnalyticsTab } from "@/components/dashboard/AnalyticsTab";
 import { ServicesTab } from "@/components/dashboard/ServicesTab";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 type DateRange = {
   from?: Date;
@@ -130,29 +129,23 @@ const Dashboard = () => {
     document.body.removeChild(link);
   };
 
-  const royaltyData = royalties?.history ? royalties.history.map((r: any) => ({
+  const royaltyData = royalties?.history?.length > 0 ? royalties.history.map((r: any) => ({
     period: r.date,
     amount: r.amount
-  })) : [
-    { period: "Jan 2026", amount: 1250.50 },
-    { period: "Feb 2026", amount: 1420.75 },
-    { period: "Mar 2026", amount: 1890.20 },
-  ];
+  })) : [];
 
-  const totalStreams = analytics?.totalStreams || 42200;
-  const monthlyListeners = analytics?.monthlyListeners || 12450;
-  const totalRoyalties = royalties?.balance || 4561.45;
-  const topTracks = analytics?.topTracks || [
-    { name: "Midnight Echoes", streams: 12400, trend: "+5.2%", date: "2 days ago" },
-    { name: "Neon Dreams", streams: 8100, trend: "+12.8%", date: "1 week ago" },
-    { name: "Urban Jungle", streams: 24500, trend: "-2.1%", date: "3 weeks ago" },
-  ];
+  const totalStreams = analytics?.totalStreams || 0;
+  const monthlyListeners = analytics?.monthlyListeners || 0;
+  const totalRoyalties = royalties?.balance || 0;
+  const topTracks = analytics?.topTracks || [];
 
-  const distributionStatus = [
-    { title: "Midnight Echoes", status: "Live", platforms: "All Platforms", date: "Mar 10, 2026", icon: CheckCircle2, color: "text-emerald-500" },
-    { title: "Neon Dreams", status: "In Review", platforms: "Pending", date: "Mar 16, 2026", icon: Clock, color: "text-amber-500" },
-    { title: "Summer Vibes", status: "Processing", platforms: "Spotify, Apple Music", date: "Mar 18, 2026", icon: Clock, color: "text-blue-500" },
-    { title: "Lost in Translation", status: "Action Needed", platforms: "None", date: "Mar 18, 2026", icon: AlertCircle, color: "text-rose-500" },
+  const distributionStatus = analytics?.distributionStatus || [];
+
+  const platformDistribution = analytics?.platformDistribution || [
+    { name: "Spotify", percentage: 0, color: "bg-emerald-500" },
+    { name: "Apple Music", percentage: 0, color: "bg-rose-500" },
+    { name: "YouTube Music", percentage: 0, color: "bg-red-600" },
+    { name: "Others", percentage: 0, color: "bg-blue-500" },
   ];
 
   if (loading) {
@@ -523,12 +516,7 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
-                {[
-                  { name: "Spotify", percentage: 45, color: "bg-emerald-500" },
-                  { name: "Apple Music", percentage: 30, color: "bg-rose-500" },
-                  { name: "YouTube Music", percentage: 15, color: "bg-red-600" },
-                  { name: "Others", percentage: 10, color: "bg-blue-500" },
-                ].map((platform, i) => (
+                {platformDistribution.map((platform: any, i: number) => (
                   <div key={i} className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="font-medium">{platform.name}</span>
@@ -586,7 +574,6 @@ const Dashboard = () => {
       </TabsContent>
 
       </Tabs>
-      <Footer />
     </motion.div>
   </div>
 );

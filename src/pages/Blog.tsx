@@ -4,8 +4,9 @@ import FloatingButtons from "@/components/FloatingButtons";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState, useMemo } from "react";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const posts = [
+const defaultPosts = [
   { id: "1", title: "How to Get Your Music on Spotify in 2025", category: "Distribution", excerpt: "A step-by-step guide to distributing your music to Spotify and getting verified as an artist." },
   { id: "2", title: "Understanding Music Royalties", category: "Monetization", excerpt: "Everything you need to know about how royalties work and how to maximize your earnings." },
   { id: "3", title: "VEVO Channel: Why Every Artist Needs One", category: "Video", excerpt: "Learn how a VEVO channel can boost your credibility and revenue as an independent artist." },
@@ -15,17 +16,22 @@ const posts = [
 ];
 
 const Blog = () => {
+  const { posts: cmsPosts } = useSiteContent();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
+  const displayPosts = useMemo(() => {
+    return cmsPosts.length > 0 ? cmsPosts.filter(p => p.published) : defaultPosts;
+  }, [cmsPosts]);
+
   const categories = useMemo(() => {
-    const cats = new Set(posts.map(p => p.category));
+    const cats = new Set(displayPosts.map(p => p.category));
     return ["All", ...Array.from(cats)];
-  }, []);
+  }, [displayPosts]);
 
   const filteredPosts = useMemo(() => {
-    if (selectedCategory === "All") return posts;
-    return posts.filter(p => p.category === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === "All") return displayPosts;
+    return displayPosts.filter(p => p.category === selectedCategory);
+  }, [selectedCategory, displayPosts]);
 
   return (
     <div className="min-h-screen bg-background">

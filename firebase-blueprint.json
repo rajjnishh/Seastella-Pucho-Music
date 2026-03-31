@@ -56,11 +56,117 @@
         }
       },
       "required": ["userId", "balance", "pending"]
+    },
+    "Release": {
+      "title": "Release",
+      "description": "Music release information",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the release" },
+        "artist": { "type": "string", "description": "Artist name" },
+        "type": { "type": "string", "enum": ["Single", "EP", "Album"], "description": "Type of release" },
+        "releaseDate": { "type": "string", "format": "date", "description": "Release date" },
+        "status": { "type": "string", "enum": ["live", "pending", "processing", "action_needed"], "description": "Current status" },
+        "upc": { "type": "string", "description": "Universal Product Code" },
+        "platforms": { "type": "string", "description": "Platforms where the release is available" },
+        "userId": { "type": "string", "description": "User ID of the owner" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["userId", "title", "artist", "type", "status"]
+    },
+    "Artist": {
+      "title": "Artist",
+      "description": "A music artist or band",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Artist name" },
+        "genre": { "type": "string", "description": "Music genre" },
+        "monthlyListeners": { "type": "number", "description": "Number of monthly listeners" },
+        "status": { "type": "string", "enum": ["active", "on_tour", "inactive"], "description": "Current status" },
+        "userId": { "type": "string", "description": "User ID of the owner" }
+      },
+      "required": ["userId", "name", "genre", "status"]
+    },
+    "Video": {
+      "title": "Video",
+      "description": "A music video or related video content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Video title" },
+        "artist": { "type": "string", "description": "Artist name" },
+        "views": { "type": "number", "description": "Number of views" },
+        "revenue": { "type": "number", "description": "Revenue generated" },
+        "status": { "type": "string", "enum": ["monetized", "pending", "not_monetized"], "description": "Monetization status" },
+        "uploadDate": { "type": "string", "format": "date", "description": "Upload date" },
+        "userId": { "type": "string", "description": "User ID of the owner" }
+      },
+      "required": ["userId", "title", "artist", "status", "uploadDate"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global website configuration and landing page content",
+      "type": "object",
+      "properties": {
+        "heroTitle": { "type": "string" },
+        "heroSubtitle": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "address": { "type": "string" }
+      }
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A service offered by the company",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "icon": { "type": "string" },
+        "order": { "type": "number" }
+      },
+      "required": ["title", "description"]
+    },
+    "PricingPlan": {
+      "title": "Pricing Plan",
+      "description": "A subscription or service plan",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "string" },
+        "description": { "type": "string" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "isPopular": { "type": "boolean" },
+        "buttonText": { "type": "string" }
+      },
+      "required": ["name", "price"]
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "A news or educational article",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "category": { "type": "string" },
+        "image": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "published": { "type": "boolean" }
+      },
+      "required": ["title", "content", "author"]
     }
   },
   "firestore": {
     "/users/{userId}": { "schema": "User", "description": "User profile document" },
     "/analytics/{userId}": { "schema": "Analytics", "description": "Artist analytics document" },
-    "/royalties/{userId}": { "schema": "Royalties", "description": "Artist royalty document" }
+    "/royalties/{userId}": { "schema": "Royalties", "description": "Artist royalty document" },
+    "/releases/{releaseId}": { "schema": "Release", "description": "Music release document" },
+    "/artists/{artistId}": { "schema": "Artist", "description": "Artist document" },
+    "/videos/{videoId}": { "schema": "Video", "description": "Video document" },
+    "/site_settings/global": { "schema": "SiteSettings", "description": "Global site configuration" },
+    "/services/{serviceId}": { "schema": "Service", "description": "Company services" },
+    "/pricing_plans/{planId}": { "schema": "PricingPlan", "description": "Pricing tiers" },
+    "/blog_posts/{postId}": { "schema": "BlogPost", "description": "Blog articles" }
   }
 }

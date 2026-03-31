@@ -22,6 +22,19 @@ export function useDashboardData() {
     const unsubAnalytics = onSnapshot(analyticsRef, (snapshot) => {
       if (snapshot.exists()) {
         setAnalytics(snapshot.data());
+      } else {
+        setAnalytics({
+          totalStreams: 0,
+          monthlyListeners: 0,
+          topTracks: [],
+          engagementRate: 0,
+          platformDistribution: [
+            { name: "Spotify", percentage: 0, color: "bg-emerald-500" },
+            { name: "Apple Music", percentage: 0, color: "bg-rose-500" },
+            { name: "YouTube Music", percentage: 0, color: "bg-red-600" },
+            { name: "Others", percentage: 0, color: "bg-blue-500" },
+          ]
+        });
       }
     }, (err) => {
       console.error("Error fetching analytics:", err);
@@ -31,6 +44,12 @@ export function useDashboardData() {
     const unsubRoyalties = onSnapshot(royaltiesRef, (snapshot) => {
       if (snapshot.exists()) {
         setRoyalties(snapshot.data());
+      } else {
+        setRoyalties({
+          balance: 0,
+          pending: 0,
+          history: []
+        });
       }
     }, (err) => {
       console.error("Error fetching royalties:", err);

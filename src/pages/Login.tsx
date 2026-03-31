@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { toast } from "sonner";
 import React, { useState } from "react";
 import { Chrome, Music } from "lucide-react";
@@ -46,7 +48,19 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+
+      // Create Firestore user document if it doesn't exist
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: "artist",
+        updatedAt: serverTimestamp(),
+      }, { merge: true });
+
       toast.success("Welcome back!");
       navigate("/dashboard");
     } catch (error: any) {

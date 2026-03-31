@@ -1,27 +1,98 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, MoreVertical, Edit, Trash2, ExternalLink, Music, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { Search, Plus, MoreVertical, Edit, Trash2, ExternalLink, Music, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useReleases, Release } from "@/lib/useReleases";
+import { toast } from "sonner";
 
 export const ReleasesTab = () => {
   const [search, setSearch] = useState("");
-  
-  const releases = [
-    { id: "R101", title: "Midnight Echoes", artist: "Midnight Echoes", type: "Single", releaseDate: "2026-03-10", status: "live", upc: "192837465012", platforms: "All Platforms" },
-    { id: "R102", title: "Neon Dreams EP", artist: "Neon Dreams", type: "EP", releaseDate: "2026-03-16", status: "pending", upc: "192837465013", platforms: "Spotify, Apple Music" },
-    { id: "R103", title: "Urban Jungle", artist: "Urban Jungle", type: "Album", releaseDate: "2026-03-20", status: "processing", upc: "192837465014", platforms: "All Platforms" },
-    { id: "R104", title: "Summer Vibes", artist: "Summer Vibes", type: "Single", releaseDate: "2026-03-25", status: "action_needed", upc: "192837465015", platforms: "None" },
-  ];
+  const { releases, loading, addRelease, deleteRelease } = useReleases();
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const filteredReleases = releases.filter(r => r.title.toLowerCase().includes(search.toLowerCase()) || r.artist.toLowerCase().includes(search.toLowerCase()));
+  const [newRelease, setNewRelease] = useState({
+    title: "",
+    artist: "",
+    type: "Single" as Release['type'],
+    releaseDate: new Date().toISOString().split('T')[0],
+    upc: "",
+    platforms: "All Platforms",
+    status: "pending" as Release['status']
+  });
+
+  const handleCreateRelease = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await addRelease(newRelease);
+      toast.success("Release created successfully");
+      setIsCreateOpen(false);
+      setNewRelease({
+        title: "",
+        artist: "",
+        type: "Single",
+        releaseDate: new Date().toISOString().split('T')[0],
+        upc: "",
+        platforms: "All Platforms",
+        status: "pending"
+      });
+    } catch (err) {
+      toast.error("Failed to create release");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [releaseToDelete, setReleaseToDelete] = useState<string | null>(null);
+
+  const handleDeleteRelease = async () => {
+    if (!releaseToDelete) return;
+    try {
+      await deleteRelease(releaseToDelete);
+      toast.success("Release deleted");
+      setIsDeleting(false);
+      setReleaseToDelete(null);
+    } catch (err) {
+      toast.error("Failed to delete release");
+    }
+  };
+
+  const confirmDelete = (id: string) => {
+    setReleaseToDelete(id);
+    setIsDeleting(true);
+  };
+
+  const filteredReleases = releases.filter(r => 
+    r.title.toLowerCase().includes(search.toLowerCase()) || 
+    r.artist.toLowerCase().includes(search.toLowerCase())
+  );
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -60,9 +131,89 @@ export const ReleasesTab = () => {
           <h2 className="text-2xl font-bold tracking-tight">Release Management</h2>
           <p className="text-muted-foreground">Upload, edit, and track your music releases.</p>
         </div>
-        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-          <Plus size={16} /> Create Release
-        </Button>
+        
+        <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+          <DialogTrigger asChild>
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+              <Plus size={16} /> Create Release
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <form onSubmit={handleCreateRelease}>
+              <DialogHeader>
+                <DialogTitle>Create New Release</DialogTitle>
+                <DialogDescription>
+                  Enter the details for your new music release.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="title" className="text-right">Title</Label>
+                  <Input 
+                    id="title" 
+                    className="col-span-3" 
+                    required 
+                    value={newRelease.title}
+                    onChange={(e) => setNewRelease({...newRelease, title: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="artist" className="text-right">Artist</Label>
+                  <Input 
+                    id="artist" 
+                    className="col-span-3" 
+                    required 
+                    value={newRelease.artist}
+                    onChange={(e) => setNewRelease({...newRelease, artist: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="type" className="text-right">Type</Label>
+                  <Select 
+                    value={newRelease.type} 
+                    onValueChange={(v: any) => setNewRelease({...newRelease, type: v})}
+                  >
+                    <SelectTrigger className="col-span-3">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Single">Single</SelectItem>
+                      <SelectItem value="EP">EP</SelectItem>
+                      <SelectItem value="Album">Album</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="date" className="text-right">Date</Label>
+                  <Input 
+                    id="date" 
+                    type="date" 
+                    className="col-span-3" 
+                    required 
+                    value={newRelease.releaseDate}
+                    onChange={(e) => setNewRelease({...newRelease, releaseDate: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="upc" className="text-right">UPC</Label>
+                  <Input 
+                    id="upc" 
+                    placeholder="Optional" 
+                    className="col-span-3" 
+                    value={newRelease.upc}
+                    onChange={(e) => setNewRelease({...newRelease, upc: e.target.value})}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Create Release
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <Card>
@@ -83,66 +234,101 @@ export const ReleasesTab = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
-                <tr>
-                  <th className="px-4 py-3 rounded-tl-lg">Release Title</th>
-                  <th className="px-4 py-3">Artist</th>
-                  <th className="px-4 py-3">Type</th>
-                  <th className="px-4 py-3">Release Date</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">UPC</th>
-                  <th className="px-4 py-3 text-right rounded-tr-lg">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredReleases.map((release) => (
-                  <tr key={release.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-4 font-medium flex items-center gap-3">
-                      <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center text-primary">
-                        <Music size={18} />
-                      </div>
-                      {release.title}
-                    </td>
-                    <td className="px-4 py-4 text-muted-foreground">{release.artist}</td>
-                    <td className="px-4 py-4">{release.type}</td>
-                    <td className="px-4 py-4">{release.releaseDate}</td>
-                    <td className="px-4 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(release.status)}`}>
-                        {getStatusIcon(release.status)}
-                        {getStatusText(release.status)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 font-mono text-xs text-muted-foreground">{release.upc}</td>
-                    <td className="px-4 py-4 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="cursor-pointer">
-                            <Edit className="mr-2 h-4 w-4" /> Edit Release
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer">
-                            <ExternalLink className="mr-2 h-4 w-4" /> View Smartlink
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer text-rose-500 focus:text-rose-500">
-                            <Trash2 className="mr-2 h-4 w-4" /> Takedown
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : filteredReleases.length === 0 ? (
+            <div className="text-center py-12 space-y-4">
+              <Music className="h-12 w-12 mx-auto text-muted-foreground opacity-20" />
+              <div className="space-y-2">
+                <p className="text-lg font-medium">No releases found</p>
+                <p className="text-muted-foreground">Start by creating your first music release.</p>
+              </div>
+              <Button onClick={() => setIsCreateOpen(true)} variant="outline">
+                Create Release
+              </Button>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
+                  <tr>
+                    <th className="px-4 py-3 rounded-tl-lg">Release Title</th>
+                    <th className="px-4 py-3">Artist</th>
+                    <th className="px-4 py-3">Type</th>
+                    <th className="px-4 py-3">Release Date</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3">UPC</th>
+                    <th className="px-4 py-3 text-right rounded-tr-lg">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredReleases.map((release) => (
+                    <tr key={release.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
+                      <td className="px-4 py-4 font-medium flex items-center gap-3">
+                        <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center text-primary">
+                          <Music size={18} />
+                        </div>
+                        {release.title}
+                      </td>
+                      <td className="px-4 py-4 text-muted-foreground">{release.artist}</td>
+                      <td className="px-4 py-4">{release.type}</td>
+                      <td className="px-4 py-4">{release.releaseDate}</td>
+                      <td className="px-4 py-4">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(release.status)}`}>
+                          {getStatusIcon(release.status)}
+                          {getStatusText(release.status)}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 font-mono text-xs text-muted-foreground">{release.upc || "—"}</td>
+                      <td className="px-4 py-4 text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem className="cursor-pointer">
+                              <Edit className="mr-2 h-4 w-4" /> Edit Release
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">
+                              <ExternalLink className="mr-2 h-4 w-4" /> View Smartlink
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer text-rose-500 focus:text-rose-500"
+                              onClick={() => confirmDelete(release.id)}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
+      
+      <Dialog open={isDeleting} onOpenChange={setIsDeleting}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently delete the release from your catalog.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDeleting(false)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleDeleteRelease}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

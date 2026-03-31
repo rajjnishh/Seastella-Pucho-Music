@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon } from "lucide-react";
+import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User as UserIcon, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -148,6 +148,14 @@ const Navbar = () => {
                     <span>Profile Settings</span>
                   </Link>
                 </DropdownMenuItem>
+                { (profile?.role === 'admin' || user?.email === 'iamtheironman0505@gmail.com') && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/admin" className="cursor-pointer flex items-center text-primary focus:text-primary">
+                      <Shield className="mr-2 h-4 w-4" />
+                      <span>Admin Panel</span>
+                    </Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="cursor-pointer text-destructive focus:text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
@@ -223,6 +231,13 @@ const Navbar = () => {
                         <LayoutDashboard size={18} /> Dashboard
                       </Button>
                     </Link>
+                    { (profile?.role === 'admin' || user?.email === 'iamtheironman0505@gmail.com') && (
+                      <Link to="/admin" onClick={() => setMobileOpen(false)} className="w-full">
+                        <Button variant="heroOutline" className="w-full justify-start gap-2 text-primary border-primary/50">
+                          <Shield size={18} /> Admin Panel
+                        </Button>
+                      </Link>
+                    )}
                     <Button variant="ghost" onClick={() => { handleLogout(); setMobileOpen(false); }} className="w-full justify-start gap-2 text-destructive hover:text-destructive hover:bg-destructive/10">
                       <LogOut size={18} /> Log Out
                     </Button>

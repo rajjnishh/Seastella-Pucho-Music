@@ -46,7 +46,7 @@ const Signup = () => {
         uid: user.uid,
         displayName: data.name,
         email: data.email,
-        role: "client",
+        role: "artist",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
@@ -77,7 +77,7 @@ const Signup = () => {
         displayName: user.displayName,
         email: user.email,
         photoURL: user.photoURL,
-        role: "client",
+        role: "artist",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       }, { merge: true });

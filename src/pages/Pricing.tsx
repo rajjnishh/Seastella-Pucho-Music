@@ -5,8 +5,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Check } from "lucide-react";
+import { useSiteContent } from "@/lib/useSiteContent";
 
-const plans = [
+const defaultPlans = [
   {
     name: "Free",
     price: "₹0",
@@ -74,6 +75,20 @@ const plans = [
 ];
 
 const Pricing = () => {
+  const { plans: cmsPlans, loading } = useSiteContent();
+
+  const displayPlans = cmsPlans.length > 0
+    ? cmsPlans.map(p => ({
+        name: p.name,
+        price: p.price,
+        period: "one-time",
+        description: p.description,
+        features: p.features,
+        buttonText: p.buttonText,
+        popular: p.isPopular
+      }))
+    : defaultPlans;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -93,7 +108,7 @@ const Pricing = () => {
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            {plans.map((plan, i) => (
+            {displayPlans.map((plan, i) => (
               <motion.div
                 key={plan.name}
                 initial={{ opacity: 0, y: 30 }}
@@ -126,7 +141,7 @@ const Pricing = () => {
                 </ul>
                 <Link to={plan.name === "Enterprise" ? "/contact" : "/signup"} className="w-full">
                   <Button variant={plan.popular ? "hero" : "heroOutline"} className="w-full" size="lg">
-                    {plan.buttonText}
+                    {plan.buttonText || (plan.name === "Enterprise" ? "Contact Sales" : "Get Started")}
                   </Button>
                 </Link>
               </motion.div>

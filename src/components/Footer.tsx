@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
 import { puchoLogoBase64 as puchoLogo } from "@/assets/logo-base64";
+import { useSiteContent } from "@/lib/useSiteContent";
 
 const Footer = () => {
+  const { settings } = useSiteContent();
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/PUCHOMusicBhojpuri", label: "Facebook" },
     { icon: Instagram, href: "https://www.instagram.com/PUCHO_music_bhojpuri/", label: "Instagram" },
@@ -17,12 +19,18 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="bg-secondary/50 rounded-2xl p-4 flex items-center gap-3 border border-border/50">
               <Mail className="w-5 h-5 text-primary" />
-              <span className="text-sm text-muted-foreground">puchomusic44@gmail.com</span>
+              <span className="text-sm text-muted-foreground">{settings?.contactEmail || "puchomusic44@gmail.com"}</span>
             </div>
+            {settings?.contactPhone && (
+              <div className="bg-secondary/50 rounded-2xl p-4 flex items-center gap-3 border border-border/50">
+                <Phone className="w-5 h-5 text-primary" />
+                <span className="text-sm text-muted-foreground">{settings.contactPhone}</span>
+              </div>
+            )}
             <div className="bg-secondary/50 rounded-2xl p-4 flex items-start gap-3 border border-border/50">
               <MapPin className="w-5 h-5 text-primary shrink-0" />
               <div className="text-sm text-muted-foreground space-y-1">
-                <p>Address - 1903, Hanuman Mandir road, Kokan Nagar, Bhandup, west, Mumbai, India</p>
+                <p>{settings?.contactAddress || "Address - 1903, Hanuman Mandir road, Kokan Nagar, Bhandup, west, Mumbai, India"}</p>
               </div>
             </div>
           </div>

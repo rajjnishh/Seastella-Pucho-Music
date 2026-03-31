@@ -17,7 +17,6 @@ import { updateProfile as updateAuthProfile } from "firebase/auth";
 import { toast } from "sonner";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const Profile = () => {
   const { user } = useAuth();
@@ -212,7 +211,6 @@ const Profile = () => {
             </Card>
           </div>
         </div>
-        <Footer />
       </motion.div>
     </div>
   </ProtectedRoute>
