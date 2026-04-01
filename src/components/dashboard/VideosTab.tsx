@@ -37,12 +37,13 @@ export const VideosTab = () => {
     status: "pending" as VideoType['status'],
     uploadDate: new Date().toISOString().split('T')[0]
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleUploadVideo = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await addVideo(newVideo);
+      await addVideo(newVideo, selectedFile || undefined);
       toast.success("Video uploaded successfully");
       setIsUploadOpen(false);
       setNewVideo({
@@ -53,6 +54,7 @@ export const VideosTab = () => {
         status: "pending",
         uploadDate: new Date().toISOString().split('T')[0]
       });
+      setSelectedFile(null);
     } catch (err) {
       toast.error("Failed to upload video");
     } finally {
@@ -146,6 +148,16 @@ export const VideosTab = () => {
                     required 
                     value={newVideo.uploadDate}
                     onChange={(e) => setNewVideo({...newVideo, uploadDate: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="file" className="text-right">File</Label>
+                  <Input 
+                    id="file" 
+                    type="file" 
+                    className="col-span-3" 
+                    accept="video/*"
+                    onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   />
                 </div>
               </div>

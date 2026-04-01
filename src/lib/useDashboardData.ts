@@ -33,7 +33,9 @@ export function useDashboardData() {
             { name: "Apple Music", percentage: 0, color: "bg-rose-500" },
             { name: "YouTube Music", percentage: 0, color: "bg-red-600" },
             { name: "Others", percentage: 0, color: "bg-blue-500" },
-          ]
+          ],
+          geoData: [],
+          trackRevenueData: []
         });
       }
     }, (err) => {

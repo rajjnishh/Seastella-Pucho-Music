@@ -3,23 +3,20 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, MoreVertical, Edit, Trash2, ExternalLink, Youtube, Link as LinkIcon, CheckCircle2, Clock, AlertCircle, Users } from "lucide-react";
+import { Search, MoreVertical, Edit, Trash2, ExternalLink, Youtube, Link as LinkIcon, CheckCircle2, Clock, AlertCircle, Users } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useChannels } from "@/lib/useChannels";
 
 export const ChannelsTab = () => {
   const [search, setSearch] = useState("");
+  const { channels, loading } = useChannels();
   
-  const channels = [
-    { id: "C101", name: "Midnight Echoes Official", url: "youtube.com/@midnightechoes", subscribers: 125000, status: "approved", linkedDate: "2025-10-15" },
-    { id: "C102", name: "Neon Dreams VEVO", url: "youtube.com/@neondreamsvevo", subscribers: 45000, status: "approved", linkedDate: "2025-11-20" },
-    { id: "C103", name: "Urban Jungle Music", url: "youtube.com/@urbanjungle", subscribers: 8500, status: "pending", linkedDate: "2026-03-10" },
-    { id: "C104", name: "Summer Vibes Records", url: "youtube.com/@summervibes", subscribers: 1200, status: "rejected", linkedDate: "2026-03-15" },
-  ];
+  if (loading) return <div>Loading...</div>;
 
   const filteredChannels = channels.filter(c => c.name.toLowerCase().includes(search.toLowerCase()) || c.url.toLowerCase().includes(search.toLowerCase()));
 
@@ -40,6 +37,9 @@ export const ChannelsTab = () => {
       default: return 'bg-muted text-muted-foreground';
     }
   };
+
+  const totalSubscribers = channels.reduce((acc, c) => acc + c.subscribers, 0);
+  const pendingApprovals = channels.filter(c => c.status === 'pending').length;
 
   return (
     <div className="space-y-6">
@@ -62,7 +62,7 @@ export const ChannelsTab = () => {
               </div>
             </div>
             <p className="text-sm font-medium text-muted-foreground">Connected Channels</p>
-            <h3 className="text-3xl font-bold mt-1">2</h3>
+            <h3 className="text-3xl font-bold mt-1">{channels.length}</h3>
           </CardContent>
         </Card>
         
@@ -74,7 +74,7 @@ export const ChannelsTab = () => {
               </div>
             </div>
             <p className="text-sm font-medium text-muted-foreground">Total Subscribers</p>
-            <h3 className="text-3xl font-bold mt-1">170K</h3>
+            <h3 className="text-3xl font-bold mt-1">{totalSubscribers.toLocaleString()}</h3>
           </CardContent>
         </Card>
 
@@ -86,7 +86,7 @@ export const ChannelsTab = () => {
               </div>
             </div>
             <p className="text-sm font-medium text-muted-foreground">Pending Approvals</p>
-            <h3 className="text-3xl font-bold mt-1">1</h3>
+            <h3 className="text-3xl font-bold mt-1">{pendingApprovals}</h3>
           </CardContent>
         </Card>
       </div>
@@ -109,63 +109,67 @@ export const ChannelsTab = () => {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
-                <tr>
-                  <th className="px-4 py-3 rounded-tl-lg">Channel Name</th>
-                  <th className="px-4 py-3">URL</th>
-                  <th className="px-4 py-3">Subscribers</th>
-                  <th className="px-4 py-3">Linked Date</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3 text-right rounded-tr-lg">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredChannels.map((channel) => (
-                  <tr key={channel.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
-                    <td className="px-4 py-4 font-medium flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-red-600/20 flex items-center justify-center text-red-600">
-                        <Youtube size={16} />
-                      </div>
-                      {channel.name}
-                    </td>
-                    <td className="px-4 py-4 text-muted-foreground">
-                      <a href={`https://${channel.url}`} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline flex items-center gap-1">
-                        {channel.url} <ExternalLink size={12} />
-                      </a>
-                    </td>
-                    <td className="px-4 py-4 font-medium">{channel.subscribers.toLocaleString()}</td>
-                    <td className="px-4 py-4 text-muted-foreground">{channel.linkedDate}</td>
-                    <td className="px-4 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(channel.status)}`}>
-                        {getStatusIcon(channel.status)}
-                        {channel.status.charAt(0).toUpperCase() + channel.status.slice(1)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem className="cursor-pointer">
-                            <ExternalLink className="mr-2 h-4 w-4" /> View Analytics
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="cursor-pointer text-rose-500 focus:text-rose-500">
-                            <Trash2 className="mr-2 h-4 w-4" /> Unlink Channel
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </td>
+          {channels.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">No channels connected yet.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
+                  <tr>
+                    <th className="px-4 py-3 rounded-tl-lg">Channel Name</th>
+                    <th className="px-4 py-3">URL</th>
+                    <th className="px-4 py-3">Subscribers</th>
+                    <th className="px-4 py-3">Linked Date</th>
+                    <th className="px-4 py-3">Status</th>
+                    <th className="px-4 py-3 text-right rounded-tr-lg">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredChannels.map((channel) => (
+                    <tr key={channel.id} className="border-b border-border/50 last:border-0 hover:bg-muted/30 transition-colors">
+                      <td className="px-4 py-4 font-medium flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-red-600/20 flex items-center justify-center text-red-600">
+                          <Youtube size={16} />
+                        </div>
+                        {channel.name}
+                      </td>
+                      <td className="px-4 py-4 text-muted-foreground">
+                        <a href={`https://${channel.url}`} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline flex items-center gap-1">
+                          {channel.url} <ExternalLink size={12} />
+                        </a>
+                      </td>
+                      <td className="px-4 py-4 font-medium">{channel.subscribers.toLocaleString()}</td>
+                      <td className="px-4 py-4 text-muted-foreground">{channel.linkedDate}</td>
+                      <td className="px-4 py-4">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${getStatusColor(channel.status)}`}>
+                          {getStatusIcon(channel.status)}
+                          {channel.status.charAt(0).toUpperCase() + channel.status.slice(1)}
+                        </span>
+                      </td>
+                      <td className="px-4 py-4 text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <span className="sr-only">Open menu</span>
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem className="cursor-pointer">
+                              <ExternalLink className="mr-2 h-4 w-4" /> View Analytics
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer text-rose-500 focus:text-rose-500">
+                              <Trash2 className="mr-2 h-4 w-4" /> Unlink Channel
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

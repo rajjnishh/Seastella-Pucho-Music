@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { db, auth } from "./firebase";
+import { db, auth, storage } from "./firebase";
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export interface Release {
   id: string;
@@ -13,6 +14,7 @@ export interface Release {
   platforms: string;
   userId: string;
   createdAt: any;
+  fileUrl?: string;
 }
 
 export const useReleases = () => {
@@ -56,12 +58,20 @@ export const useReleases = () => {
     return () => unsubscribe();
   }, [auth.currentUser]);
 
-  const addRelease = async (release: Omit<Release, 'id' | 'userId' | 'createdAt'>) => {
+  const addRelease = async (release: Omit<Release, 'id' | 'userId' | 'createdAt'>, file?: File) => {
     if (!auth.currentUser) throw new Error("User not authenticated");
+
+    let fileUrl = release.fileUrl;
+    if (file) {
+      const storageRef = ref(storage, `releases/${auth.currentUser.uid}/${Date.now()}_${file.name}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      fileUrl = await getDownloadURL(snapshot.ref);
+    }
 
     try {
       await addDoc(collection(db, "releases"), {
         ...release,
+        fileUrl,
         userId: auth.currentUser.uid,
         createdAt: serverTimestamp()
       });

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { 
@@ -15,31 +14,17 @@ import {
   Legend
 } from "recharts";
 import { Globe, Music, DollarSign, Smartphone } from "lucide-react";
+import { useDashboardData } from "@/lib/useDashboardData";
 
 export const AnalyticsTab = () => {
-  const geoData = [
-    { country: "United States", streams: 45000, percentage: 45 },
-    { country: "United Kingdom", streams: 15000, percentage: 15 },
-    { country: "Germany", streams: 12000, percentage: 12 },
-    { country: "Brazil", streams: 8000, percentage: 8 },
-    { country: "Japan", streams: 5000, percentage: 5 },
-    { country: "Others", streams: 15000, percentage: 15 },
-  ];
+  const { analytics, loading } = useDashboardData();
 
-  const platformData = [
-    { name: "Spotify", value: 55000, color: "#1DB954" },
-    { name: "Apple Music", value: 30000, color: "#FA243C" },
-    { name: "YouTube", value: 15000, color: "#FF0000" },
-    { name: "Amazon", value: 5000, color: "#FF9900" },
-    { name: "Others", value: 5000, color: "#8884d8" },
-  ];
+  if (loading) return <div>Loading...</div>;
+  if (!analytics) return <div>No analytics data available.</div>;
 
-  const trackRevenueData = [
-    { name: "Midnight Echoes", revenue: 1250 },
-    { name: "Neon Dreams", revenue: 840 },
-    { name: "Urban Jungle", revenue: 450 },
-    { name: "Summer Vibes", revenue: 120 },
-  ];
+  const geoData = analytics.geoData || [];
+  const platformData = analytics.platformDistribution || [];
+  const trackRevenueData = analytics.trackRevenueData || [];
 
   return (
     <div className="space-y-6">
@@ -59,24 +44,28 @@ export const AnalyticsTab = () => {
             <CardDescription>Top countries by streams</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              {geoData.map((data, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="font-medium">{data.country}</span>
-                    <span className="text-muted-foreground">{data.streams.toLocaleString()} ({data.percentage}%)</span>
+            {geoData.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">No geographic data available yet.</div>
+            ) : (
+              <div className="space-y-4">
+                {geoData.map((data: any, i: number) => (
+                  <div key={i} className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="font-medium">{data.country}</span>
+                      <span className="text-muted-foreground">{data.streams.toLocaleString()} ({data.percentage}%)</span>
+                    </div>
+                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-primary rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${data.percentage}%` }}
+                        transition={{ duration: 1, delay: i * 0.1 }}
+                      />
+                    </div>
                   </div>
-                  <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                    <motion.div 
-                      className="h-full bg-primary rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${data.percentage}%` }}
-                      transition={{ duration: 1, delay: i * 0.1 }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -88,34 +77,38 @@ export const AnalyticsTab = () => {
             <CardDescription>Streams by DSP</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={platformData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    paddingAngle={5}
-                    dataKey="value"
-                  >
-                    {platformData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <Tooltip 
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      borderColor: 'hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                    itemStyle={{ color: 'hsl(var(--foreground))' }}
-                  />
-                  <Legend verticalAlign="bottom" height={36} />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+            {platformData.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">No platform data available yet.</div>
+            ) : (
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={platformData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {platformData.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))', 
+                        borderColor: 'hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                      itemStyle={{ color: 'hsl(var(--foreground))' }}
+                    />
+                    <Legend verticalAlign="bottom" height={36} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -127,24 +120,28 @@ export const AnalyticsTab = () => {
             <CardDescription>Earnings breakdown by individual release</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] w-full">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={trackRevenueData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="hsl(var(--muted-foreground))" opacity={0.1} />
-                  <XAxis type="number" tickFormatter={(value) => `$${value}`} tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
-                  <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} />
-                  <Tooltip 
-                    formatter={(value) => [`$${value}`, 'Revenue']}
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      borderColor: 'hsl(var(--border))',
-                      borderRadius: '8px'
-                    }}
-                  />
-                  <Bar dataKey="revenue" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} barSize={30} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
+            {trackRevenueData.length === 0 ? (
+              <div className="text-center py-12 text-muted-foreground">No revenue data available yet.</div>
+            ) : (
+              <div className="h-[300px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={trackRevenueData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="hsl(var(--muted-foreground))" opacity={0.1} />
+                    <XAxis type="number" tickFormatter={(value) => `$${value}`} tick={{ fontSize: 12, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis dataKey="name" type="category" width={120} tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }} />
+                    <Tooltip 
+                      formatter={(value: any) => [`$${value}`, 'Revenue']}
+                      contentStyle={{ 
+                        backgroundColor: 'hsl(var(--card))', 
+                        borderColor: 'hsl(var(--border))',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Bar dataKey="revenue" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} barSize={30} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

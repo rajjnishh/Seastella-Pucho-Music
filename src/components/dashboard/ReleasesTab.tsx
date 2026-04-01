@@ -45,12 +45,13 @@ export const ReleasesTab = () => {
     platforms: "All Platforms",
     status: "pending" as Release['status']
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleCreateRelease = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await addRelease(newRelease);
+      await addRelease(newRelease, selectedFile || undefined);
       toast.success("Release created successfully");
       setIsCreateOpen(false);
       setNewRelease({
@@ -62,6 +63,7 @@ export const ReleasesTab = () => {
         platforms: "All Platforms",
         status: "pending"
       });
+      setSelectedFile(null);
     } catch (err) {
       toast.error("Failed to create release");
     } finally {
@@ -202,6 +204,16 @@ export const ReleasesTab = () => {
                     className="col-span-3" 
                     value={newRelease.upc}
                     onChange={(e) => setNewRelease({...newRelease, upc: e.target.value})}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="file" className="text-right">File</Label>
+                  <Input 
+                    id="file" 
+                    type="file" 
+                    className="col-span-3" 
+                    accept="audio/*"
+                    onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
                   />
                 </div>
               </div>
