@@ -48,6 +48,8 @@ export interface SiteSettings {
   address: string;
   navbarLinks: { label: string; href: string }[];
   footerLinks: { label: string; href: string }[];
+  primaryColor: string;
+  secondaryColor: string;
 }
 
 export interface Service {

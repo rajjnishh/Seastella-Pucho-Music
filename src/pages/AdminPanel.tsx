@@ -391,6 +391,16 @@ export const AdminPanel = () => {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
+                <Label>Primary Color</Label>
+                <Input type="color" className="rounded-xl h-10" value={editingSettings?.primaryColor || "#000000"} onChange={(e) => setEditingSettings(prev => prev ? {...prev, primaryColor: e.target.value} : null)} />
+              </div>
+              <div className="space-y-2">
+                <Label>Secondary Color</Label>
+                <Input type="color" className="rounded-xl h-10" value={editingSettings?.secondaryColor || "#000000"} onChange={(e) => setEditingSettings(prev => prev ? {...prev, secondaryColor: e.target.value} : null)} />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
                 <Label>Contact Email</Label>
                 <Input className="rounded-xl" value={editingSettings?.contactEmail || ""} onChange={(e) => setEditingSettings(prev => prev ? {...prev, contactEmail: e.target.value} : null)} />
               </div>

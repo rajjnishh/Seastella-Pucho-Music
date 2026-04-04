@@ -130,14 +130,16 @@ service cloud.firestore {
     }
 
     function isValidSiteSettings(data) {
-      return data.keys().hasOnly(['heroTitle', 'heroSubtitle', 'contactEmail', 'contactPhone', 'address', 'navbarLinks', 'footerLinks']) &&
+      return data.keys().hasOnly(['heroTitle', 'heroSubtitle', 'contactEmail', 'contactPhone', 'address', 'navbarLinks', 'footerLinks', 'primaryColor', 'secondaryColor']) &&
              (!('heroTitle' in data) || (data.heroTitle is string && data.heroTitle.size() < 200)) &&
              (!('heroSubtitle' in data) || (data.heroSubtitle is string && data.heroSubtitle.size() < 1000)) &&
              (!('contactEmail' in data) || isValidEmail(data.contactEmail)) &&
              (!('contactPhone' in data) || (data.contactPhone is string && data.contactPhone.size() < 20)) &&
              (!('address' in data) || (data.address is string && data.address.size() < 500)) &&
              (!('navbarLinks' in data) || data.navbarLinks is list) &&
-             (!('footerLinks' in data) || data.footerLinks is list);
+             (!('footerLinks' in data) || data.footerLinks is list) &&
+             (!('primaryColor' in data) || (data.primaryColor is string && data.primaryColor.size() < 10)) &&
+             (!('secondaryColor' in data) || (data.secondaryColor is string && data.secondaryColor.size() < 10));
     }
 
     function isValidService(data) {

@@ -20,14 +20,7 @@ import { useProfile } from "@/lib/useProfile";
 import { useTheme } from "next-themes";
 import { NotificationsPopover } from "@/components/NotificationsPopover";
 import { puchoLogoBase64 as puchoLogo } from "@/assets/logo-base64"; // Main brand logo
-
-const navLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "About Us", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Contact Us", href: "/contact" },
-];
+import { useSiteConfig } from "@/lib/useSiteConfig";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,6 +30,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const location = useLocation();
+  const { siteConfig } = useSiteConfig();
+
+  const navLinks = siteConfig?.navbarLinks || [
+    { label: "Services", href: "/services" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "About Us", href: "/about" },
+    { label: "Blog", href: "/blog" },
+    { label: "Contact Us", href: "/contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
