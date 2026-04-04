@@ -79,10 +79,18 @@ export const SiteEditor = ({
         </div>
         <Button 
           onClick={() => {
-            if (siteSettings) {
-              setEditingSettings(siteSettings);
-              setIsSettingsDialogOpen(true);
-            }
+            setEditingSettings(siteSettings || { 
+              heroTitle: "", 
+              heroSubtitle: "", 
+              contactEmail: "", 
+              contactPhone: "", 
+              address: "", 
+              navbarLinks: [], 
+              footerLinks: [],
+              primaryColor: "#000000",
+              secondaryColor: "#000000"
+            });
+            setIsSettingsDialogOpen(true);
           }}
           className="rounded-xl flex items-center gap-2"
         >
